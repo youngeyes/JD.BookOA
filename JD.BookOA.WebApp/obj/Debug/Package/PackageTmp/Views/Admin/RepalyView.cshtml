@@ -1,0 +1,111 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="~/Content/uploadify/uploadify.css" rel="stylesheet" />
+    @*<script type="text/javascript" src="/js/jquery.js"></script>*@
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/uploadify/jquery.uploadify.js"></script>
+    <script type="text/javascript" src="/js/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="/js/select-ui.min.js"></script>
+    <link href="~/css/layui.css" rel="stylesheet" />
+    <script src="~/js/layui.js"></script>
+    <link href="~/css/adminstyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/editor/themes/default/default.css" rel="stylesheet" />
+    <script src="~/editor/kindeditor-min.js"></script>
+    <script src="~/editor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+        })
+    </script>
+</head>
+
+
+<body>
+
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/admin/BookView">返回</a></li>
+
+            <li><a href="#">留言回复</a></li>
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <div class="formtitle"><span>留言信息</span></div>
+        <input type="hidden" id="hiddenId" value="@ViewBag.Id" />
+        <input type="hidden" id="Detail_" value="@ViewBag.BuyerMsg" />
+        
+        <ul class="forminfo">
+            <li><label>订单号</label><input type="text" id="OrderNum" name="OrderNum" class="dfinput" value="@ViewBag.OrderNum" disabled="disabled" /></li>
+            <li><label>留言人</label><input type="text" id="MemberId" name="MemberId" class="dfinput" value="@ViewBag.MemberId" disabled="disabled" /></li>
+            <li>
+                <label>留言信息</label>
+                <textarea id="BuyerMsg" name="BuyerMsg" style="width: 800px; height:500px; visibility: hidden; "></textarea>
+
+            </li>
+            <li>
+                <label>回复信息</label>
+                <textarea id="Detail" name="Detail" style="width: 800px; height:500px; visibility: hidden; "></textarea>
+
+            </li>
+            <li><label>&nbsp;</label><input name="getHtml" type="submit" class="btn" id="k" value="确认回复" /></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+
+        $(function () {
+            var editor1;
+            KindEditor.ready(function (K) {
+                editor1 = K.create('textarea[name="Detail"]', {
+                    resizeType: 1,
+                    allowPreviewEmoticons: false,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest',
+                    allowFileManager: true,
+                    allowImageUpload: true,
+                });
+                editor2 = K.create('textarea[name="BuyerMsg"]', {
+                    resizeType: 1,
+                    allowPreviewEmoticons: false,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest',
+                    allowFileManager: true,
+                    allowImageUpload: true,
+                });
+                editor2.html($("#Detail_").val());
+                K('input[name=getHtml]').click(function (e) {
+                    //alert(editor.text());
+                    var html = editor1.html();
+                    var str = html.toString();
+                    //Id, title, flage, msg, img
+                    $.post("/Admin/RepalySave", {
+                        "SellerMsg": str,"Id": $("#hiddenId").val(),
+                    }, function (data) {
+                        if (data == "ok") {
+                            alert("回复成功");
+                            window.location.href = "/admin/MessageView";
+
+                        }
+                        else {
+                            alert("回复失败");
+                        }
+                    });
+                });
+            });
+
+        })
+    </script>
+</body>
+
+</html>

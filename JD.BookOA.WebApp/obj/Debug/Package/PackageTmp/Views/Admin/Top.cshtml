@@ -1,0 +1,83 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/css/adminstyle.css" rel="stylesheet" />
+    <script language="JavaScript" src="/js/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //顶部导航切换
+            $(".nav li a").click(function () {
+                $(".nav li a.selected").removeClass("selected")
+                $(this).addClass("selected");
+            });
+        })
+
+
+    </script>
+
+
+</head>
+
+<body style="background:url(/images/topbg.gif) repeat-x;">
+    <!--提示音-->
+    <audio src="http://data3.huiyi8.com/2015/saraxuss/3/11/6.mp3" id="audio_content" preload="auto"></audio>
+
+    <div class="topleft">
+        <a href="/admin" target="_parent"><img src="/images/logo.png" title="系统首页" /></a>
+
+
+    </div>
+
+
+
+    <div class="topright">
+
+
+        <div class="user">
+            <input type="hidden" id="ssid" value="@ViewBag.ssid" />
+            <input type="hidden" id="inform" value="@ViewBag.inform" />
+
+            @*<span>admin</span>*@
+
+        </div>
+
+
+
+    </div>
+    <script type="text/javascript">
+        var i = 4;//倒计时总秒数
+        var intervalid;
+        intervalid = setInterval("Countdown()", 1000);
+        var audio = document.getElementById('audio_content');//获取音频对象
+        function Countdown() {
+
+            if (i == 0) {
+                var ssid = $("#inform").val();
+                $.post("/admin/Countdown", { "ssid": ssid }, function (data) {
+                    $("#ssid").val(data.ssid);
+                    $("#inform").val(data.inform);
+
+                    //$("#mes").val(data.inform);
+                    if ($("#ssid").val() < $("#inform").val()) {
+                        //alert($("#ssid").val() - $("#inform").val())
+                        audio.play();//播放
+                        //document.getElementsByTagName('b')[0].innerHTML = $("#inform").val();
+                        window.location.href = "/admin";
+
+                    }
+
+                })
+                i = 4;
+            }
+            i--;
+        }
+
+    </script>
+</body>
+</html>

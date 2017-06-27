@@ -1,0 +1,478 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的购物车</title>
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary JavaScript plugins) -->
+    <script type='text/javascript' src="/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- start menu -->
+    <link href="/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/megamenu.js"></script>
+    <script>$(document).ready(function () { $(".megamenu").megamenu(); });</script>
+    <script src="/js/menu_jquery.js"></script>
+    @*<script src="/js/simpleCart.min.js"> </script>*@
+    <script type="text/javascript">
+        $(function () {
+            $("#userdiv").hide();
+            GetCookie();
+            function GetCookie() {
+                $.post("/Cookie/GetCookie", function (data) {
+                    if (data.member != null && data.member != "") {
+                        $("#userdiv").show();
+                        $("#logindiv").hide();
+                        $("#memerid").val(data.memberid);
+                        //$("#userdiv span").html(data.member);
+                    } else {
+                        $("#userdiv").hide();
+                        $("#logindiv").show();
+                        $("#memerid").val(0);
+                    }
+                })
+            }
+            //登录事件
+            $("#login").click(function () {
+                var memberid = $("#memberid").val();
+                var password = $("#password").val();
+                if (memberid.length <= 0) {
+                    alert("会员账号不能为空");
+                    return false;
+                }
+                if (password.length <= 0) {
+                    alert("登录密码不能为空");
+                    return false;
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/home/MemberLogin",
+                        data: $("#loginForm").serialize(),
+                        async: false,
+                        success: function (data) {
+                            if (data.msg == "ok") {
+                                alert("登录成功");
+                                //window.location.href = "/home/";
+                                $.post("/Cookie/SaveCookie", { "member": memberid, "memberid": data.MemberId }, function (data) {
+                                    if (data == "ok") {
+                                        //window.location.href = "/";
+                                        GetCookie();
+                                        //window.location.reload();
+                                        var memberid = parseInt($("#memerid").val()) + 1;
+                                        window.location.href = "/home/CartView?MemberId=" + memberid;
+                                    }
+                                });
+                            } else {
+                                alert("会员名或密码错误，登录失败");
+                            }
+                        }
+                    })
+                }
+            });
+            //注销事件
+            $("#zx").click(function () {
+                $.post("/Cookie/ClearCookie", function (data) {
+                    if (data == "ok") {
+                        var memberid = parseInt($("#memerid").val()) - 1;
+                        window.location.href = "/home/CartView?MemberId=" + memberid;
+                    }
+                });
+            });
+            //设置弹出层事件
+            $("#userBox").hide();
+            $("#userButton").click(function () {
+                var display = $("#userBox").css('display');
+                if ($("#userBox").is(":hidden")) {
+                    $("#userBox").show();
+                } else {
+                    $("#userBox").hide();
+                }
+            });
+            //个人信息
+            $("#person").click(function () {
+                var memberid = $("#memerid").val();
+                window.location.href = "/home/MemberCommit?MemberId=" + memberid;
+                //alert(memberid);
+            })
+            //我的购物车
+            $("#mycart").click(function () {
+                var memberid = $("#memerid").val();
+                //$.post("/home/CartView", { "MemberId": memberid },function)
+                window.location.href = "/home/CartView?MemberId=" + memberid;
+            })
+            //我的订单
+            $("#myorder").click(function () {
+                var memberid = $("#memerid").val();
+                window.location.href = "/home/OrderInfo?MemberId=" + memberid;
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- header -->
+    <div class="header_bg">
+        <div class="container">
+            <div class="header">
+                <div class="head-t">
+                    <div class="logo">
+                        <a href="/"><img src="/images/logo1.png" class="img-responsive" alt="" /> </a>
+                        <input type="hidden" id="memerid" />
+                    </div>
+                    <!--登录框div -->
+                    <div class="header_right">
+                        <div class="rgt-bottom">
+                            <div class="log" id="logindiv">
+                                <div class="login">
+                                    <div id="loginContainer">
+                                        <a href="#" id="loginButton"><span>登录</span></a>
+                                        <div id="loginBox">
+                                            <form id="loginForm">
+                                                <fieldset id="body">
+                                                    <fieldset>
+                                                        <label for="email">会员名</label>
+                                                        <input type="text" name="member" id="memberid" placeholder="请输入昵称/手机号/邮箱">
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <label for="password">密码</label>
+                                                        <input type="password" name="MemberPwd" id="password" placeholder="请输入密码">
+                                                    </fieldset>
+                                                    <input type="submit" id="login" value="登录">
+                                                </fieldset>
+                                                <span><a href="/home/ForgetPwdView">忘记密码?</a></span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="log" id="userdiv">
+                                <div class="login">
+                                    <div id="userContainer">
+                                        <a href="#" id="userButton"><span>欢迎</span></a>
+                                        <div id="userBox">
+                                            <form id="userForm">
+                                                <fieldset id="userbody">
+                                                    <fieldset>
+                                                        <a href="#" id="person">个人信息</a>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <a href="#" id="myorder">我的订单</a>
+                                                    </fieldset>
+                                                    <a href="" id="zx">注销</a>
+                                                    @*<label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住密码</i></label>*@
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--会员注册div-->
+                            <div class="reg">
+                                <a href="/home/Register">注册</a>
+                            </div>
+                            <!--购物车div-->
+                            <div class="cart box_1">
+                                <a href="#" id="mycart">
+                                    <h3> <span class="simpleCart_total">我的购物车</span><img style="border:0;width:auto" src="/images/bag.png" alt=""></h3>
+                                </a>
+                                <!--<p><a href="javascript:;" class="simpleCart_empty">(empty card)</a></p>-->
+                                <div class="clearfix"> </div>
+                            </div>
+                            <!--联系我们div-->
+                            <div class="create_btn">
+                                <a href="http://wpa.qq.com/msgrd?v=3&uin=282523357&site=qq&menu=yes">联系我们</a>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <!--搜索div-->
+                        <div class="search">
+                            <form action="/home/SearchView">
+                                <input type="text" name="SearchParam" value="" placeholder="search...">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!-- start header menu -->
+                <ul class="megamenu skyblue">
+                    <li class="active grid"><a class="color1" href="/">首页</a></li>
+                    <!--分类-->
+                    @{
+                        foreach (var item in ViewBag.pmenu)
+                        {
+                            <li class="grid">
+                                <a class="color4" href="@item.Link">@item.PName</a>
+                                <div class="megapanel">
+                                    <div class="row">
+                                        @{
+                            foreach (var item1 in ViewBag.cmenu)
+                            {
+                                if (item1.ParentId == item.Id)
+                                {
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <h4>@item1.CName</h4>
+                                            <ul>
+                                                @{
+                                    foreach (var item2 in ViewBag.scmenu)
+                                    {
+                                        if (item2.ChildId == item1.Id)
+                                        {
+                                            string url = "/Home/SortView?Parentid=" + item2.ChildId + "&childid=" + item2.Id;
+                                            <li><a href="@url">@item2.SCName</a></li>
+                                        }
+                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        <div class="col2"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="check">
+            <!--购物车左侧详情-->
+            <div class="col-md-3 cart-total">
+                <a class="continue" href="/">继续购物</a>
+                <div class="price-details">
+                    <h3>价格详情</h3>
+                    <span>总金额</span>
+                    <span class="total1">@ViewBag.totalprice</span>
+                    <span>折扣</span>
+                    <span class="total1">---</span>
+                    <span>运费</span>
+                    <span class="total1">---</span>
+                    <div class="clearfix"></div>
+                </div>
+                <ul class="total_price">
+                    <li class="last_price"> <h4>总计(含运费)</h4></li>
+                    <li class="last_price"><span>@ViewBag.totalprice</span></li>
+                    <div class="clearfix"> </div>
+                </ul>
+
+
+                <div class="clearfix"></div>
+                <a class="order" href="#" id="order">结算</a>
+            </div>
+            <!--购物车清单列表-->
+            <div class="col-md-9 cart-items">
+                
+                <script>
+                    function closefunc(Id) {
+                        $.post("/home/DeleteCart", { "Id": Id }, function (data) {
+                            window.location.reload();
+                        });
+                    }
+                    function changenumadd(num,Id) {
+                        var str="#"+num;
+                        var num = parseInt($(str).val());
+                        var num_add = num + 1;
+                        $(str).val(num_add);
+                        $.post("/home/EditCart", { "Id": Id, "Ammount": num_add }, function (data) {
+                            window.location.reload();
+                        });
+                    }
+                    function changenumdel(num,Id) {
+                        var str = "#" + num;
+                        var num = parseInt($(str).val());
+                        if (num>1) {
+                            var num_add = num -1;
+                            $(str).val(num_add);
+                            $.post("/home/EditCart", { "Id": Id, "Ammount": num_add }, function (data) {
+                                window.location.reload();
+                            });
+                        }
+                    }
+                    $(function () {
+                        $("#order").click(function () {
+                            var memberid = $("#memerid").val();
+                            $.post("/home/CheckCart", { "MemberId": memberid }, function (data) {
+                                if (data=="ok") {
+                                    //alert("可以结算");
+                                    window.location.href = "/home/Orderview?MemberId=" + memberid;
+                                } else {
+                                    alert("购物车什么也没有");
+                                }
+                            });
+                        });
+                    });
+                </script>
+                @{
+                    if (ViewBag.MemberId != 0)
+                    {
+                        int i=0;
+                        <h1>我的购物车(@ViewBag.totalcount)</h1>
+                        foreach (var item in ViewBag.carts)
+                        {
+                            i++;
+                            string str = "buy_num" + i;
+                            <div class="cart-header">
+                                <div class="close1" onclick="closefunc(@item.Id)"> </div>
+                                <div class="cart-sec simpleCart_shelfItem">
+                                    <div class="cart-item-info">
+                                        <h3><a href="#">@item.BookName</a></h3>
+                                        <ul class="qty">
+                                            <li><p>单价(元) : ￥@item.Price</p></li>
+                                            <li><p>数量 :</p></li>
+                                            <li>
+                                                <div class="num1">
+                                                    <input class="text" id="@str" type="text" value="@item.Ammount" />
+                                                    <a href="javascript:;" class="num_add" onclick="changenumadd('@str',@item.Id)">+</a>
+                                                    <a href="javascript:;" class="num_del" onclick="changenumdel('@str',@item.Id)">-</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="delivery">
+                                            @{
+                            decimal price = item.Price * item.Ammount;
+                                            }
+                                            <p>金额 : ￥@price</p>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div>
+                            <p>您还没有登录，购物车什么也没有，赶快登录购买商品吧\(^o^)/</p>
+                        </div>
+                    }
+
+                }
+
+                <!--<div class="cart-header2">
+                    <div class="close2"> </div>
+                     <div class="cart-sec simpleCart_shelfItem">
+                           <div class="cart-item cyc">
+                                <img src="images/book2.jpg" class="img-responsive" alt=""/>
+                           </div>
+                          <div class="cart-item-info">
+                           <h3><a href="#">Mountain Hopper(XS R034)</a><span>Model No: 3578</span></h3>
+                           <ul class="qty">
+                               <li><p>Size : 5</p></li>
+                               <li><p>Qty : 1</p></li>
+                           </ul>
+                                <div class="delivery">
+                                <p>Service Charges : Rs.100.00</p>
+                                <span>Delivered in 2-3 bussiness days</span>
+                                <div class="clearfix"></div>
+                           </div>
+                          </div>
+                          <div class="clearfix"></div>
+
+                     </div>-->
+                <!--</div>-->
+            </div>
+
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!--底部链接-->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 cust">
+                <h4>购物指南</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 1)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 abt">
+                <h4>支付方式</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 2)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 myac">
+                <h4>商家服务</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 3)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-5 our-st">
+                <h4>联系方式</h4>
+                <li><i class="add"> </i>江南大学</li>
+                <li><i class="phone"> </i>18861822100</li>
+                <li><a href=""><i class="mail"> </i>youngeyes@yeah.net</a></li>
+
+            </div>
+            <div class="clearfix"> </div>
+            <p>Copyright &copy;江南大学毕设作品</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Online_bookstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Author" Type="nvarchar" MaxLength="100" />
+    <Property Name="Press" Type="nvarchar" MaxLength="100" />
+    <Property Name="Presstime" Type="datetime" />
+    <Property Name="ISBN" Type="nvarchar" MaxLength="100" />
+    <Property Name="Smallpic" Type="nvarchar" MaxLength="100" />
+    <Property Name="Bigpic" Type="nvarchar" MaxLength="100" />
+    <Property Name="OldPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="NewPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Introduce" Type="nvarchar(max)" />
+    <Property Name="Detail" Type="nvarchar(max)" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="ChildId" Type="int" />
+    <Property Name="Discuss" Type="int" />
+    <Property Name="Stock" Type="int" />
+    <Property Name="Reserve1" Type="datetime" />
+    <Property Name="Reserve2" Type="int" />
+    <Property Name="Reserve3" Type="nvarchar" MaxLength="50" />
+    <Property Name="Reserve4" Type="nvarchar" MaxLength="50" />
+    <Property Name="Reserve5" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CarouselImg">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Url" Type="nvarchar" MaxLength="100" />
+    <Property Name="ShowImg" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ChildClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Url" Type="nvarchar" MaxLength="50" />
+    <Property Name="Link" Type="nvarchar" MaxLength="50" />
+    <Property Name="defalse" Type="bit" />
+  </EntityType>
+  <EntityType Name="Friendship">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FriendshipMsg" Type="nvarchar" MaxLength="50" />
+    <Property Name="FriendshipUrl" Type="nvarchar" MaxLength="100" />
+    <Property Name="FriendshipClass" Type="int" />
+    <Property Name="FriendshipDetail" Type="nvarchar(max)" />
+    <Property Name="IsDIY" Type="int" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="nvarchar" MaxLength="50" />
+    <Property Name="MemberPwd" Type="nvarchar" MaxLength="64" />
+    <Property Name="EMail" Type="nvarchar" MaxLength="100" />
+    <Property Name="Tell" Type="bigint" />
+    <Property Name="Sex" Type="bit" />
+    <Property Name="HeadIco" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Registertime" Type="datetime" />
+    <Property Name="Sendaddress" Type="nvarchar(max)" />
+    <Property Name="Reserve1" Type="nvarchar" MaxLength="50" />
+    <Property Name="Reserve2" Type="int" />
+    <Property Name="Reserve3" Type="nvarchar" MaxLength="50" />
+    <Property Name="Reserve4" Type="nvarchar" MaxLength="50" />
+    <Property Name="Reserve5" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderNum" Type="nvarchar" MaxLength="50" />
+    <Property Name="BuyerMsg" Type="nvarchar(max)" />
+    <Property Name="SellerMsg" Type="nvarchar(max)" />
+    <Property Name="MemberId" Type="nvarchar" MaxLength="50" />
+    <Property Name="Reply" Type="bit" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderNum" Type="nvarchar" MaxLength="50" />
+    <Property Name="SendAdress" Type="nvarchar(max)" />
+    <Property Name="Totalprice" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Stat" Type="int" />
+    <Property Name="Createtime" Type="datetime" />
+    <Property Name="Goods" Type="nvarchar(max)" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="IsDilivery" Type="bit" />
+  </EntityType>
+  <EntityType Name="ParentClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Url" Type="nvarchar" MaxLength="50" />
+    <Property Name="Link" Type="nvarchar" MaxLength="50" />
+    <Property Name="defalse" Type="bit" />
+  </EntityType>
+  <EntityType Name="schildclass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SCName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ChildId" Type="int" />
+    <Property Name="Url" Type="nvarchar" MaxLength="50" />
+    <Property Name="Link" Type="nvarchar" MaxLength="50" />
+    <Property Name="defalse" Type="bit" />
+  </EntityType>
+  <EntityType Name="Shopping_Cart">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Ammount" Type="int" />
+    <Property Name="MemberId" Type="int" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPwd" Type="nvarchar" MaxLength="64" />
+    <Property Name="Createtime" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Orders_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shopping_Cart_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Shopping_Cart" Type="Self.Shopping_Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shopping_Cart">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Online_bookstoreModelStoreContainer">
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CarouselImg" EntityType="Self.CarouselImg" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChildClass" EntityType="Self.ChildClass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Friendship" EntityType="Self.Friendship" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ParentClass" EntityType="Self.ParentClass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="schildclass" EntityType="Self.schildclass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Shopping_Cart" EntityType="Self.Shopping_Cart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Orders_Member" Association="Self.FK_Orders_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shopping_Cart_Member" Association="Self.FK_Shopping_Cart_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Shopping_Cart" EntitySet="Shopping_Cart" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Online_bookstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Author" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Press" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Presstime" Type="DateTime" Precision="3" />
+    <Property Name="ISBN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Smallpic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Bigpic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="OldPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="NewPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Introduce" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="ChildId" Type="Int32" />
+    <Property Name="Discuss" Type="Int32" />
+    <Property Name="Stock" Type="Int32" />
+    <Property Name="Reserve1" Type="DateTime" Precision="3" />
+    <Property Name="Reserve2" Type="Int32" />
+    <Property Name="Reserve3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Reserve4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Reserve5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ChildClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="defalse" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Friendship">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FriendshipMsg" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FriendshipUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FriendshipClass" Type="Int32" />
+    <Property Name="FriendshipDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsDIY" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MemberPwd" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Tell" Type="Int64" />
+    <Property Name="Sex" Type="Boolean" />
+    <Property Name="HeadIco" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Registertime" Type="DateTime" Precision="3" />
+    <Property Name="Sendaddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Reserve1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Reserve2" Type="Int32" />
+    <Property Name="Reserve3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Reserve4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Reserve5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Member" FromRole="Member" ToRole="Orders" />
+    <NavigationProperty Name="Shopping_Cart" Relationship="Self.FK_Shopping_Cart_Member" FromRole="Member" ToRole="Shopping_Cart" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SendAdress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Totalprice" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Stat" Type="Int32" />
+    <Property Name="Createtime" Type="DateTime" Precision="3" />
+    <Property Name="Goods" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MemberId" Type="Int32" />
+    <Property Name="IsDilivery" Type="Boolean" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_Orders_Member" FromRole="Orders" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="ParentClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="defalse" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="schildclass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SCName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ChildId" Type="Int32" />
+    <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="defalse" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Shopping_Cart">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Ammount" Type="Int32" />
+    <Property Name="MemberId" Type="Int32" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_Shopping_Cart_Member" FromRole="Shopping_Cart" ToRole="Member" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserPwd" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="Createtime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_Orders_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shopping_Cart_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="Shopping_Cart" Type="Self.Shopping_Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shopping_Cart">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Online_bookstoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Book" EntityType="Self.Book" />
+    <EntitySet Name="ChildClass" EntityType="Self.ChildClass" />
+    <EntitySet Name="Friendship" EntityType="Self.Friendship" />
+    <EntitySet Name="Member" EntityType="Self.Member" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" />
+    <EntitySet Name="ParentClass" EntityType="Self.ParentClass" />
+    <EntitySet Name="schildclass" EntityType="Self.schildclass" />
+    <EntitySet Name="Shopping_Cart" EntityType="Self.Shopping_Cart" />
+    <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+    <AssociationSet Name="FK_Orders_Member" Association="Self.FK_Orders_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shopping_Cart_Member" Association="Self.FK_Shopping_Cart_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Shopping_Cart" EntitySet="Shopping_Cart" />
+    </AssociationSet>
+    <EntitySet Name="Message" EntityType="Online_bookstoreModel.Message" />
+    <EntitySet Name="CarouselImg" EntityType="Online_bookstoreModel.CarouselImg" />
+  </EntityContainer>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BuyerMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SellerMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Reply" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="CarouselImg">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ShowImg" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

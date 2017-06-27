@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D58B4FB8-DFBD-4D8C-B3CA-5E36A67DE5BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JD.BookOA.BLL</RootNamespace>
+    <AssemblyName>JD.BookOA.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseService.cs" />
+    <Compile Include="BookService.cs" />
+    <Compile Include="CarouselImgService.cs" />
+    <Compile Include="ChildClassService.cs" />
+    <Compile Include="FriendshipService.cs" />
+    <Compile Include="IManager.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberService.cs" />
+    <Compile Include="MessageService.cs" />
+    <Compile Include="OrdersService.cs" />
+    <Compile Include="ParentClassService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="schildclassService.cs" />
+    <Compile Include="UserInfoService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JD.BookOA.DALFactory\JD.BookOA.DALFactory.csproj">
+      <Project>{ef4c4a3e-9041-4dd4-9764-977dc0bcf19e}</Project>
+      <Name>JD.BookOA.DALFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JD.BookOA.DAL\JD.BookOA.DAL.csproj">
+      <Project>{c745a7a7-a67f-4d97-85bc-3a1c90b79db9}</Project>
+      <Name>JD.BookOA.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JD.BookOA.IBLL\JD.BookOA.IBLL.csproj">
+      <Project>{19e03d3d-bd0d-46a1-a579-727aeccd3a00}</Project>
+      <Name>JD.BookOA.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JD.BookOA.IDAL\JD.BookOA.IDAL.csproj">
+      <Project>{819c15a6-8305-41d5-a1b9-4f54d42a5b2f}</Project>
+      <Name>JD.BookOA.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JD.BookOA.Model\JD.BookOA.Model.csproj">
+      <Project>{79775398-add5-43f7-9913-825c67b4f002}</Project>
+      <Name>JD.BookOA.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IManager.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IManager.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

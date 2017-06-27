@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="~/Content/uploadify/uploadify.css" rel="stylesheet" />
+    @*<script type="text/javascript" src="/js/jquery.js"></script>*@
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/uploadify/jquery.uploadify.js"></script>
+    <script type="text/javascript" src="/js/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="/js/select-ui.min.js"></script>
+    <link href="~/css/layui.css" rel="stylesheet" />
+    <script src="~/js/layui.js"></script>
+    <link href="~/css/adminstyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/editor/themes/default/default.css" rel="stylesheet" />
+    <script src="~/editor/kindeditor-min.js"></script>
+    <script src="~/editor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+        })
+    </script>
+</head>
+
+
+<body>
+
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/admin/Friendship">返回</a></li>
+            @{
+                if (ViewBag.action == "edit")
+                {
+                    <li><a href="#">编辑</a></li>
+                }
+                else
+                {
+                    <li><a href="#">添加</a></li>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <div class="formtitle"><span>基本信息</span></div>
+        <input type="hidden" id="hiddenId" value="@ViewBag.Id" />
+        <input type="hidden" id="hiddenaction" value="@ViewBag.action" />
+        <input type="hidden" id="Detail_" value="@ViewBag.FriendshipDetail" />
+        <input type="hidden" id="IsDIY" value="@ViewBag.IsDIY" />
+        <ul class="forminfo">
+            <li><label>链接标题</label><input type="text" id="FriendshipMsg" name="FriendshipMsg" class="dfinput" value="@ViewBag.FriendshipMsg" /></li>
+            <li><label>链接地址</label><input type="text" id="FriendshipUrl" name="FriendshipUrl" class="dfinput" value="@ViewBag.FriendshipUrl" />(自定义网页链接可不填)</li>
+            <li>
+                <label>链接所属类别</label>
+                <select id="FriendshipClass" name="FriendshipClass" class="dfinput">
+                    @{
+                        if (ViewBag.action=="edit")
+                        {
+                            List<string> list = new List<string>();
+                            list.Add("购物指南");
+                            list.Add("支付方式");
+                            list.Add("商家服务");
+                            for (int i = 0; i < list.Count; i++)
+                            {
+                                if (ViewBag.FriendshipClass==(i+1))
+                                {
+                                    <option value="@(i+1)" selected="selected">@list[i]</option>
+                                }
+                                else
+                                {
+                                    <option value="@(i+1)">@list[i]</option>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <option value="1">购物指南</option>
+                            <option value="2">支付方式</option>
+                            <option value="3">商家服务</option>
+                        }
+                    }
+                </select>
+            </li>
+            <li><label>&nbsp;</label><input type="button" value="是否自定义网页" id="btnDIY" class="btn"  /></li>
+            <li id="detaili">
+                <label>链接详情</label>
+                <textarea id="Detail" name="Detail" style="width: 800px; height:500px; visibility: hidden; "></textarea>
+
+            </li>
+            <li><label>&nbsp;</label><input name="getHtml" type="submit" class="btn" id="k" value="确认保存" /></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnDIY").click(function () {
+                $("#detaili").show();
+            });
+            var str = $("#IsDIY").val();
+            if (str=="0") {
+                $("#detaili").hide();
+            } else {
+                $("#detaili").show();
+            }
+        });
+        $(function () {
+            var editor1;
+            KindEditor.ready(function (K) {
+                editor1 = K.create('textarea[name="Detail"]', {
+                    resizeType: 1,
+                    allowPreviewEmoticons: false,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest',
+                    allowFileManager: true,
+                    allowImageUpload: true,
+                });
+                editor1.html($("#Detail_").val());
+                K('input[name=getHtml]').click(function (e) {
+                    //alert(editor.text());
+                    var html = editor1.html();
+                    var str = html.toString();
+                    //Id, title, flage, msg, img
+                    $.post("/Admin/EditFriendship", {
+                        "FriendshipMsg": $("#FriendshipMsg").val(), "FriendshipUrl": $("#FriendshipUrl").val(),
+                        "FriendshipClass": $("#FriendshipClass").val(), "FriendshipDetail": str, "action": $("#hiddenaction").val(), "Id": $("#hiddenId").val(),
+                    }, function (data) {
+                        if (data == "ok") {
+                            alert("保存成功");
+                            window.location.href = "/admin/Friendship";
+
+                        }
+                        else {
+                            alert("保存失败");
+                        }
+                    });
+                });
+            });
+
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,537 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>会员注册</title>
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary JavaScript plugins) -->
+    <script type='text/javascript' src="/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- start menu -->
+    <link href="/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/megamenu.js"></script>
+    <script>$(document).ready(function () { $(".megamenu").megamenu(); });</script>
+    <script src="/js/menu_jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#userdiv").hide();
+            GetCookie();
+            function GetCookie() {
+                $.post("/Cookie/GetCookie", function (data) {
+                    if (data.member!=null&&data.member!="") {
+                        $("#userdiv").show();
+                        $("#logindiv").hide();
+                        $("#memerid").val(data.memberid);
+                        //$("#userdiv span").html(data.member);
+                    } else {
+                        $("#userdiv").hide();
+                        $("#logindiv").show();
+                        $("#memerid").val(0);
+                    }
+                })
+            }
+            //登录事件
+            $("#login").click(function () {
+                var memberid = $("#memberid").val();
+                var password = $("#password").val();
+                if (memberid.length<=0) {
+                    alert("会员账号不能为空");
+                    return false;
+                }
+                if (password.length<=0) {
+                    alert("登录密码不能为空");
+                    return false;
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/home/MemberLogin",
+                        data: $("#loginForm").serialize(),
+                        async: false,
+                        success: function (data) {
+                            if (data.msg == "ok") {
+                                alert("登录成功");
+                                //window.location.href = "/home/";
+                                $.post("/Cookie/SaveCookie", { "member": memberid, "memberid": data.MemberId }, function (data) {
+                                    if (data == "ok") {
+                                        //window.location.href = "/";
+                                        GetCookie();
+                                        window.location.reload();
+                                    }
+                                });
+                            } else {
+                                alert("会员名或密码错误，登录失败");
+                            }
+                        }
+                    })
+                }
+            });
+            //注销事件
+            $("#zx").click(function () {
+                $.post("/Cookie/ClearCookie", function (data) {
+                    if (data=="ok") {
+                        window.location.reload();
+                    }
+                });
+            });
+            //设置弹出层事件
+            $("#userBox").hide();
+            $("#userButton").click(function () {
+                var display = $("#userBox").css('display');
+                if ($("#userBox").is(":hidden")) {
+                    $("#userBox").show();
+                } else {
+                    $("#userBox").hide();
+                }
+            })
+            //个人信息
+            $("#person").click(function () {
+                var memberid = $("#memerid").val();
+                window.location.href = "/home/MemberCommit?MemberId=" + memberid;
+                //alert(memberid);
+            })
+            //我的购物车
+            $("#mycart").click(function () {
+                var memberid = $("#memerid").val();
+                //$.post("/home/CartView", { "MemberId": memberid },function)
+                window.location.href = "/home/CartView?MemberId=" + memberid;
+            })
+            //我的订单
+            $("#myorder").click(function () {
+                var memberid = $("#memerid").val();
+                window.location.href = "/home/OrderInfo?MemberId=" + memberid;
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- header -->
+    <div class="header_bg">
+        <div class="container">
+            <div class="header">
+                <div class="head-t">
+                    <div class="logo">
+                        <a href="/"><img src="/images/logo1.png" class="img-responsive" alt="" /> </a>
+                        <input type="hidden" id="memerid" />
+                    </div>
+                    <!--登录框div -->
+                    <div class="header_right">
+                        <div class="rgt-bottom">
+                            <div class="log" id="logindiv">
+                                <div class="login">
+                                    <div id="loginContainer">
+                                        <a href="#" id="loginButton"><span>登录</span></a>
+                                        <div id="loginBox">
+                                            <form id="loginForm">
+                                                <fieldset id="body">
+                                                    <fieldset>
+                                                        <label for="email">会员名</label>
+                                                        <input type="text" name="member" id="memberid" placeholder="请输入昵称/手机号/邮箱">
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <label for="password">密码</label>
+                                                        <input type="password" name="MemberPwd" id="password" placeholder="请输入密码">
+                                                    </fieldset>
+                                                    <input type="submit" id="login" value="登录">
+                                                </fieldset>
+                                                <span><a href="/home/ForgetPwdView">忘记密码?</a></span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="log" id="userdiv">
+                                <div class="login">
+                                    <div id="userContainer">
+                                        <a href="#" id="userButton"><span>欢迎</span></a>
+                                        <div id="userBox">
+                                            <form id="userForm">
+                                                <fieldset id="userbody">
+                                                    <fieldset>
+                                                        <a href="#" id="person">个人信息</a>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <a href="#" id="myorder">我的订单</a>
+                                                    </fieldset>
+                                                    <a href="" id="zx">注销</a>
+                                                    @*<label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住密码</i></label>*@
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            <!--会员注册div-->
+                            <div class="reg">
+                                <a href="/home/Register">注册</a>
+                            </div>
+                            <!--购物车div-->
+                            <div class="cart box_1">
+                                <a href="#" id="mycart">
+                                    <h3> <span class="simpleCart_total">我的购物车</span><img style="border:0;width:auto" src="/images/bag.png" alt=""></h3>
+                                </a>
+                                <!--<p><a href="javascript:;" class="simpleCart_empty">(empty card)</a></p>-->
+                                <div class="clearfix"> </div>
+                            </div>
+                            <!--联系我们div-->
+                            <div class="create_btn">
+                                <a href="http://wpa.qq.com/msgrd?v=3&uin=282523357&site=qq&menu=yes">联系我们</a>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <!--搜索div-->
+                        <div class="search">
+                            <form action="/home/SearchView">
+                                <input type="text" name="SearchParam" value="" placeholder="search...">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!-- start header menu -->
+                <ul class="megamenu skyblue">
+                    <li class="active grid"><a class="color1" href="/">首页</a></li>
+                    <!--分类-->
+                    @{
+                        foreach (var item in ViewBag.pmenu)
+                        {
+                            <li class="grid">
+                                <a class="color4" href="@item.Link">@item.PName</a>
+                                <div class="megapanel">
+                                    <div class="row">
+                                        @{
+                            foreach (var item1 in ViewBag.cmenu)
+                            {
+                                if (item1.ParentId == item.Id)
+                                {
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <h4>@item1.CName</h4>
+                                            <ul>
+                                                @{
+                                    foreach (var item2 in ViewBag.scmenu)
+                                    {
+                                        if (item2.ChildId == item1.Id)
+                                        {
+                                            string url = "/Home/SortView?Parentid=" + item2.ChildId + "&childid=" + item2.Id;
+                                            <li><a href="@url">@item2.SCName</a></li>
+                                        }
+                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        <div class="col2"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- content -->
+    <div class="container">
+        <div class="main">
+            <!-- start registration -->
+            <div class="registration">
+                <div class="registration_left">
+                    <h2>新用户? <span> 创建一个账号 </span></h2>
+                    <!-- [if IE]
+                        < link rel='stylesheet' type='text/css' href='ie.css'/>
+                     [endif] -->
+                    <!-- [if lt IE 7]>
+                        < link rel='stylesheet' type='text/css' href='ie6.css'/>
+                    <! [endif] -->
+                    <script type="text/javascript">
+                        (function () {
+
+                            // Create input element for testing
+                            var inputs = document.createElement('input');
+
+                            // Create the supports object
+                            var supports = {};
+
+                            supports.autofocus = 'autofocus' in inputs;
+                            supports.required = 'required' in inputs;
+                            supports.placeholder = 'placeholder' in inputs;
+
+                            // Fallback for autofocus attribute
+                            if (!supports.autofocus) {
+
+                            }
+
+                            // Fallback for required attribute
+                            if (!supports.required) {
+
+                            }
+
+                            // Fallback for placeholder attribute
+                            if (!supports.placeholder) {
+
+                            }
+
+                            // Change text inside send button on submit
+                            var send = document.getElementById('register-submit');
+                            if (send) {
+                                send.onclick = function () {
+                                    this.innerHTML = '...Sending';
+                                }
+                            }
+
+                        })();
+                        //注册会员验证
+                        function reCheckPost() {
+                            var pwd1 = $("#MemberPwd1").val();
+                            var pwd2 = $("#MemberPwd2").val();
+                            var MemberId=$("#MemberId").val();
+                            var Tell=$("#Tell").val();
+                            var EMail=$("#EMail").val();
+                            var pattern = /^1[34578]\d{9}$/;
+                            @*var emailreg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;*@
+                            if (MemberId.length<=0) {
+                                alert("会员名不能为空");
+                                return false;
+                            }
+                            if (Tell.length<=0) {
+                                alert("电话号码不能为空");
+                                return false;
+                            }
+                            if (!pattern.test(Tell)) {
+                                alert("电话号码输入有误");
+                                return false;
+                            }
+                            if (EMail.length<=0) {
+                                alert("邮箱不能为空");
+                                return false;
+                            }
+                            if (pwd1 != pwd2) {
+                                alert("两次输入的密码不一致，请确认后注册!")
+                                return false;
+                            } else {
+                                $.ajax({
+                                            type: "POST",
+                                            url: "/home/RegisterSave",
+                                            data: $("#registration_form").serialize(),
+                                            async: false,
+                                            success: function (data) {
+                                                if (data == "ok") {
+                                                    alert("注册成功");
+                                                    //window.location.href = "/home/MemberCommit?Id=" + MemberId;
+                                                    window.location.reload();
+                                                } if (data=="no") {
+                                                    alert("注册失败");
+                                                } if (data == "exit") {
+                                                    alert("该会员已存在");
+                                                }
+                                            }
+                                        })
+                            }
+                        }
+                        function loCheckPost() {
+                            var member = $("#member").val();
+                            var MemberPwd = $("#MemberPwd").val();
+                            if (member.length<=0) {
+                                alert("会员账号不能为空");
+                                return false;
+                            }
+                            if (MemberPwd.length<=0) {
+                                alert("登录密码不能为空");
+                                return false;
+                            }
+                            else {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/home/MemberLogin",
+                                    data: $("#login_form_").serialize(),
+                                    async: false,
+                                    success: function (data) {
+                                        if (data.msg == "ok") {
+                                            alert("登录成功");
+                                            //window.location.href = "/home/";
+                                            $.post("/Cookie/SaveCookie", { "member": member, "memberid": data.MemberId }, function (data) {
+                                                if (data=="ok") {
+                                                    //window.location.href = "/";
+                                                    window.location.reload();
+                                                }
+                                            });
+                                        } else {
+                                            alert("会员名或密码错误，登录失败");
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    </script>
+                    <div class="registration_form">
+                        <!-- Form -->
+                        <form id="registration_form">
+                            <div>
+                                <label>
+                                    <input placeholder="会员名:" name="MemberId" id="MemberId" type="text" tabindex="1" required autofocus>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input placeholder="手机号:" name="Tell" id="Tell" type="text" tabindex="2" required autofocus>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input placeholder="邮箱:" name="EMail" id="EMail" type="email" tabindex="3" required>
+                                </label>
+                            </div>
+                            <div class="sky-form">
+                                <div class="sky_form1">
+                                    <ul>
+                                        <li><label class="radio left"><input type="radio" name="Sex" checked="" id="sex1" value="True"><i></i>男</label></li>
+                                        <li><label class="radio"><input type="radio" name="Sex" id="sex2" value="False"><i></i>女</label></li>
+                                        <div class="clearfix"></div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <label>
+                                    <input placeholder="登录密码" name="MemberPwd" id="MemberPwd1" type="password" tabindex="4" required>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input placeholder="确认密码" id="MemberPwd2" type="password" tabindex="5" required>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="button" value="立即注册" id="register-submit" onclick="reCheckPost();">
+                            </div>
+                        </form>
+                        <!-- /Form -->
+                    </div>
+                </div>
+                <div class="registration_left">
+                    <h2>已存在账号</h2>
+                    <div class="registration_form">
+                        <!-- Form -->
+                        <form id="login_form_">
+                            <div>
+                                <label>
+                                    <input placeholder="会员名/手机号/邮箱" type="email" name="member" id="member" tabindex="6" required>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input placeholder="请输入密码" type="password" name="MemberPwd" id="MemberPwd" tabindex="7" required>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="button" value="登录" id="login-submit" onclick="loCheckPost()">
+                            </div>
+                            <div class="forget">
+                                <a href="/home/ForgetPwdView">忘记密码</a>
+                            </div>
+                        </form>
+                        <!-- /Form -->
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- end registration -->
+        </div>
+    </div>
+    <!--底部链接-->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 cust">
+                <h4>购物指南</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 1)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 abt">
+                <h4>支付方式</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 2)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 myac">
+                <h4>商家服务</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 3)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-5 our-st">
+                <h4>联系方式</h4>
+                <li><i class="add"> </i>江南大学</li>
+                <li><i class="phone"> </i>18861822100</li>
+                <li><a href=""><i class="mail"> </i>youngeyes@yeah.net</a></li>
+
+            </div>
+            <div class="clearfix"> </div>
+            <p>Copyright &copy;江南大学毕设作品</p>
+            <!--<p>Copyright &copy;江大物联毕设作品</p>-->
+        </div>
+    </div>
+</body>
+</html>

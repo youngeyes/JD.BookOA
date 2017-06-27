@@ -1,0 +1,510 @@
+﻿.foot{
+    clear: both;
+}
+.free_bg_div{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 8px 2px #888888;
+    width: 100%;
+
+}
+.div_center{
+    width: 95%;
+    margin: 10px auto;
+
+}
+.left_img{
+    border-radius: 2px;
+}
+.x{
+    color: red;
+}
+.zero{
+    height: 2em;
+}
+.end li{
+    float: left;
+}
+
+	
+*{margin:0;padding:0;}
+body{ background:none;}
+ul, ol, li {list-style-type:none;vertical-align:0}
+a {outline-style:none;color:#535353;text-decoration:none}
+a:hover { color: #D40000; text-decoration: none}
+.slider{display:none}/*用于获取更多体验*/
+.focus span{width:10px;height:10px;margin-right:10px;border-radius:50%;background:#666;font-size:0}
+.focus span.current{background:#fff}
+
+/*PC电脑版*/
+@media screen and (min-width: 750px) {
+    .all{
+        width: 750px;
+        background: url("../images/beijing.jpg") no-repeat;
+        margin: 0 auto;
+        background-size: 750px 100%;
+        overflow: hidden;
+        font-family: 微软雅黑;
+        border: 1px solid #888888;
+    }
+    .head{
+        width: 92.5%;
+        text-align: center;
+        margin: 0 auto;
+        height: 470px;
+    }
+    .head p{
+        color: white;
+        font-weight: bolder;
+    }
+
+    .header_title{
+        font-size: 35px;
+    }
+    .header_slogan{
+        font-size: 40px;
+        font-family: 微软雅黑;
+        line-height: 100px;
+    }
+    .content{
+        background-color:white;
+        overflow: hidden;
+    }
+    .content_center{
+        width: 92.5%;
+        height: 100%;
+        margin: 0 auto;
+    }
+    .tips{
+        font-size: 27px;
+        color: #000;
+        text-align: center;
+        font-family: 微软雅黑;
+        padding-top: 30px;
+        height: 50px;
+    }
+    .free_bg_div{
+    }
+    .left_img{
+        border-radius: 2px;
+        width: 192px;
+        height: 159px;
+        float: left;
+        margin-top: 18px;
+    }
+    .left_img img{
+        width: 192px;
+        height: 159px;
+    }
+    .div_right{
+        float: right;
+        width: 430px;
+        margin-top: 20px;
+    }
+	.tips_span{
+        position: relative;
+        line-height: 1px;
+		}
+    .tips_span a{
+        display: inline-block;
+        margin-top: 20px;
+        font-size: 16px;
+        width: 100%;
+        line-height: 45px;
+        text-align: center;
+        border: 1px solid #808080;
+        border-radius: 5px;
+        color: #393939;
+    }
+    .form_input input{
+        width:78%;
+        height: 50px;
+        margin-top: 10px;
+        padding-left: 15px;
+		border:1px solid #ccc;
+    }
+	.form_input{
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 3px #b7b7b7;
+        margin-top: 2rem;
+		}
+    .form_input select{
+        width: 25%;
+        height: 40px;
+        margin-top: 5px;
+    }
+    .form_input span{
+        font-size: 25px;
+    }
+    .sub{
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+    .tips_aa{
+        font-size: 16px!important;
+        color: #fe8ebc;
+        font-weight: bold;
+    }
+    .tips_aa{
+        font-size: 16px!important;
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+    .sps{
+        color: #818181;
+        height: 2rem;
+        line-height: 2rem;
+        font-size: 20px!important;
+    }
+    .tips_aaa{
+        font-size: 16px!important;
+        color: #818181;
+        font-weight: bold;
+    }
+    .tips_p{
+        font-size: 20px;
+        line-height: 50px;
+        color: #818181;
+    }
+    .tips_p1{
+        font-weight: bold;
+        font-size: 30px;
+        color: #fe8ebc;
+    }
+    .form_center{
+        width: 92.2%;
+        margin: 0 auto;
+    }
+    .form_center_p input{
+        float: right;
+    }
+    .form_center_p select{
+        float: right;
+        margin-left: 18px;
+        margin-top: 15px;
+    }
+    .form_center_p span{
+        float:left;
+        display: inline-block;
+        height: 70px;
+        line-height: 70px;
+    }
+    .form_center_p{
+        height: 50px;
+    }
+    .xs{
+        padding-left: 15px;
+        width: 90%;
+        margin: 20px auto;
+        border-left: 5px solid #fb539b;
+        font-weight: bold;
+        color: #fd60a2;
+        font-size: 20px;
+    }
+    .xs_div{
+        height: 60px;
+        background-color:white;
+        overflow: hidden;
+    }
+    .so{
+        border: 1px solid #bdbdbd;
+        height: 50px;
+        line-height: 50px;
+        margin: 0 auto;
+        font-size: 20px;
+    }
+    .so span{
+        font-size: 20px;
+        margin-top: -10px;
+    }
+    .so input{
+        width: 20px;
+        height: 20px;
+        float: left;
+        margin-left: 20px;
+        margin-top: 15px;
+    }
+    .yaoqiu{
+        width: 100%;
+        height: 100px;
+        box-shadow: 0 0 10px 3px #b7b7b7;
+        margin-top: 1rem;
+    }
+    .yaoqiu img{
+        width: 100%;
+        height: 100px;
+    }
+}
+
+/*手机版*/
+@media screen and (max-width: 750px){
+    .all{
+        width: 100%;
+        background: url("../images/beijing.jpg") no-repeat;
+        margin: 0 auto;
+        background-size: 100% 60rem;
+        overflow: hidden;
+        font-family: 微软雅黑;
+    }
+    .header_title{
+        width: 100%;
+        height: 3rem;
+        background-color: #f5f5f5;
+        line-height: 3rem;
+    }
+    .header_title_center{
+        width: 95%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .header_title_center img{
+        float: left;
+        margin-top: 0.7rem;
+        width: 1.2rem;
+    }
+    .right_a img{
+        height: 2rem;
+        width: 0.7rem;
+    }
+    .header_title_center span{
+        font-size: 1.2rem;
+        font-weight:bold;
+    }
+    .content{
+        background-color: white;
+        overflow: hidden;
+    }
+    .content_center{
+        width: 92.5%;
+        height: 100%;
+        margin: 0 auto;
+    }
+    .tips{
+        font-size: 0.8rem;
+        color: #818181;
+        text-align: center;
+        padding: 1rem;
+    }
+    .free_bg_div{
+    }
+    .cs{
+        font-size: 0.8rem;
+    }
+    .left_img{
+        border-radius: 2px;
+        height: 6rem;
+        float: left;
+        margin-top: 1rem;
+		width:35%;
+    }
+    .left_img img{
+        width: 6rem;
+        height: 5rem;
+    }
+    .div_right{
+        float: left;
+		margin-top:18px;
+		width:65%;
+    }
+	
+    .tips_span a{
+        font-size: 0.8rem;
+        width: 100%;
+        border: 1px solid #808080;
+        border-radius: 5px;
+        color:#393939;
+		height:2rem;
+		line-height:2rem;
+        display: inline-block;
+        margin-top: 0.7rem;
+    }
+
+	.tips_span{
+		text-align: center;
+        position: relative;
+        line-height:0.1rem;
+		}
+    .form_input input{
+        width: 69%;
+        height: 2rem;
+        padding-left: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+        margin-top: 0.5rem;
+
+    }
+    .form_input select{
+        width: 22.3%;
+        margin-left: 0.5rem;
+        height: 1.9rem;
+        text-align: center;
+        background-color: #fff;
+		border:1px solid #ccc;
+        margin-top: 0.5rem;
+    }
+    .form_input span{
+        font-size: 0.8rem;
+        color: #818181;
+    }
+    .form_input{
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 3px #b7b7b7;
+        margin-top: 2rem;
+    }
+    .sub{
+        width: 60%;
+        margin:1rem 0 1rem 0;
+    }
+    .tips_aa{
+        font-size: 1rem!important;
+        color: #c60149;
+        font-weight: bold;
+    }
+    .tips_aa span{
+        font-size: 1rem!important;
+    }
+    .sps{
+        color: #818181;
+        font-size: 1rem!important;
+		display: inline-block;
+    }
+    .tips_aaa{
+        font-size: 16px!important;
+        color: #818181;
+        font-weight: bold;
+    }
+    .tips_p{
+        font-size: 0.8rem;
+        color: ;
+		width:90%;
+		margin:0.5rem auto;
+    }
+    .tips_p_span{
+        font-size: 0.6rem!important;
+        line-height: 1.5rem;
+        color: #818181;
+    }
+    .tips_p1{
+        font-size: 1.3rem;
+        color: #c60149;
+        line-height: 2rem;
+    }
+    .form_center{
+        width: 92.2%;
+        margin: 0 auto;
+    }
+    .xs{
+        padding-left: 1rem;
+        width: 90%;
+        font-size: 1.3rem;
+        margin: 10px auto;
+        border-left: 5px solid #fb539b;
+        color: #fe539c;
+    }
+    .xs_div{
+        height: 40px;
+        background-color:white;
+        overflow: hidden;
+    }
+    .end span{
+        font-size: 0.8rem;
+    }
+    .complaint{
+        font-size: 0.8rem;
+		margin-top:0.2rem;
+    }
+    .so{
+        border: 1px solid #bdbdbd;
+        height: 3rem;
+        width: 93%;
+        margin-top: 1rem;
+        line-height: 2.7rem;
+        border-radius: 1px ;
+    }
+    .so span{
+        font-size: 0.9rem;
+        color:  #424242;
+    }
+    .so input{
+        width: 15px;
+        height: 15px;
+        float: left;
+        margin-left: 1rem;
+        margin-top: 1rem;
+    }
+    .yaoqiu{
+        width: 100%;
+        box-shadow: 0 0 10px 3px #b7b7b7;
+        margin-top: 1rem;
+    }
+    .yaoqiu img{
+        width: 100%;
+        height: 3rem;
+    }
+	.share{
+        background: url("../images/sharebg.png");
+        width: 100%;
+        height: 100%;
+        background-size: 100% 100%;
+        position: fixed;
+        top:0;
+		z-index:111;
+    }
+    .share_content{
+        width: 100%;
+        height: 43%;
+        position: absolute;
+        bottom: 0;
+    }
+    .top_img{
+        width: 73%;
+        margin: 0 auto;
+        display: flex;
+        flex-flow: row;
+    }
+    .img_border{
+        width: 4rem;
+        height: 4rem;
+        flex: 3;
+        text-align: center;
+    }
+    .img_border img{
+        width: 4rem;
+        height: 4rem;
+        border: 2px solid grey;
+        border-radius: 10px;
+
+    }
+    .tips_center{
+        width: 100%;
+        position: absolute;
+        top: 40%;
+        text-align: center;
+        color: #06ff00;
+        font-size: 1.1rem;
+        font-family: "Microsoft JhengHei Light";
+        font-weight: bold;
+    }
+    .bottom_btn{
+        width: 70%;
+        margin: 0 auto;
+        position: relative;
+        top: 40%;
+    }
+    .bottom_btn img{
+        width:100%;
+    }
+	
+}
+.end{
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 5px;
+	font-size:1rem;
+}
+

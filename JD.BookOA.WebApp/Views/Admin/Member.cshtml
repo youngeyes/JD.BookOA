@@ -1,0 +1,224 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/js/md5.js"></script>
+    <!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>-->
+
+    <script type="text/javascript">
+        $(function () {
+
+            loadData();
+        });
+        //主界面搭建
+        function loadData(pars) {
+            $('#tt').datagrid({
+                url: '/Admin/LoadMember',//获取数据
+                title: '会员信息',
+                width: $(window).width() - 20,
+                //autoRowHeight: false,
+                //pageSize: 50,
+                //remoteSort:true,
+                height: $(window).height() - 20,
+                fitColumns: true, //列自适应
+                nowrap: false,
+                idField: 'Id',//主键列的列明
+                loadMsg: '正在加获取信息请稍后...',
+                pagination: true,//是否有分页
+                singleSelect: false,//是否单行选择
+                pageSize: 100,//页大小，一页多少条数据
+                pageNumber: 1,//当前页，默认的
+                pageList: [100, 150, 200],
+                queryParams: pars,//往后台传递参数
+                columns: [[
+                    { field: 'ck', checkbox: true, align: 'left', width: 50 },
+					{ field: 'Id', title: '编号', width: 50 },
+					{ field: 'MemberId', title: '会员账号', width: 100 },
+                    { field: 'EMail', title: '邮箱', width: 100 },
+                    { field: 'Tell', title: '电话号码', width: 100 },
+                    {
+                        field: 'Sex', title: '性别', width: 100,
+                        formatter:function(value,row,index){
+                            if (value==false) {
+                                return "女";
+                            }if (value==true) {
+                                return "男";
+                            }
+                        }
+                    },
+					{
+					    field: 'Registertime', title: '注册时间', width: 100, align: 'left',
+
+					    formatter: function (value, row, index) {
+					        if (value != null) {
+					            return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d HH:mm:ss");
+					        }
+
+					    }
+
+
+					},
+
+                ]],
+                toolbar: [{
+                    id: 'btnsearch',
+                    text: '搜索',
+                    iconCls: 'icon-search',
+                    handler: function () {
+
+                        searchInfo();
+                    }
+                }, {
+                    id: 'btnsearch',
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler: function () {
+                        //传值
+                        var pars = {
+                            iccbn: "",
+                            name: "",
+                            classname: "",
+                            writer: "",
+
+                        };
+
+                        loadData(pars)
+                        //loadData();
+                        //searchInfo();
+                    }
+
+
+                },
+
+                ],
+            });
+        }
+        //将序列化成json格式后日期(毫秒数)转成日期格式
+        function ChangeDateFormat(cellval) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? +(date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? +date.getDate() : date.getDate();
+            var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            return date.getFullYear() + "-" + month + "-" + currentDate + " " + hour + ":" + minute + ":" + second;
+
+        }
+        //获取日期文本框的值
+        function gettime() {
+            var temp = $('#S_time1').datetimebox('getValue');
+            var temp1 = $('#S_time2').datetimebox('getValue');
+            $("#S_name1").val(temp);
+            $("#S_name2").val(temp1);
+
+        }
+        //用户搜索
+        function searchInfo() {
+            $("#searchDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+            $('#searchDiv').dialog({
+                title: '多条件搜索',
+                modal: true,
+                buttons: [{
+                    text: '确定',
+
+                    iconCls: 'icon-ok',
+                    handler: function () {
+
+                        //传值
+                        var pars = {
+                            MemberId: $("#pars_MemberId").val(),
+                            EMail: $("#pars_EMail").val(),
+                            Tell: $("#pars_Tell").val(),
+                            Sex: $("#pars_Sex").val(),
+                            Registertime1: $('#s_time1').datebox('getValue'),
+                            Registertime2: $('#s_time2').datebox('getValue')
+                        };
+                        loadData(pars)
+                        $('#searchDiv').dialog('close');
+
+                    }
+
+                }, {
+                    text: '取消',
+                    handler: function () {
+
+                        $('#searchDiv').dialog('close');
+
+                    }
+                }]
+            });
+        }
+    </script>
+
+
+</head>
+<body>
+    <div>
+
+        <table id="tt" style="width: 700px;" title="标题" iconcls="icon-edit"></table>
+    </div>
+    <!--搜索用户信息DIV--->
+    <div id="searchDiv" style="display:none">
+
+        <table>
+
+            <tr>
+                <td>会员名</td>
+                <td>
+                    <input type="text" name="MemberId" id="pars_MemberId" />
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td>
+                    <input type="text" name="EMail" id="pars_EMail" />
+                </td>
+            </tr>
+            <tr>
+                <td>电话号码</td>
+                <td>
+                    <input type="text" name="Tell" id="pars_Tell" />
+                </td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <select name="Sex" id="pars_Sex">
+                        <option value="true">男</option>
+                        <option value="false">女</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>注册时间</td>
+                <td>
+                    <input type="text" name="Registertime1" class="easyui-datebox" id="s_time1" />
+                </td>
+                <td>&nbsp&nbsp到</td>
+                <td>
+                    <input type="text" name="Registertime2" class="easyui-datebox" id="s_time2" />
+                </td>
+            </tr>
+
+        </table>
+
+
+
+    </div>
+
+</body>
+</html>

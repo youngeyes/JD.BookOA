@@ -1,0 +1,196 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/js/md5.js"></script>
+    <!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>-->
+
+    <script type="text/javascript">
+        $(function () {
+
+            loadData();
+        });
+        //主界面搭建
+        function loadData(pars) {
+            $('#tt').datagrid({
+                url: '/Admin/LoadCarouselImg',//获取数据
+                title: '轮播图设置',
+                width: $(window).width() - 20,
+                //autoRowHeight: false,
+                //pageSize: 50,
+                //remoteSort:true,
+                height: $(window).height() - 20,
+                fitColumns: true, //列自适应
+                nowrap: false,
+                idField: 'Id',//主键列的列明
+                loadMsg: '正在加获取信息请稍后...',
+                pagination: true,//是否有分页
+                singleSelect: false,//是否单行选择
+                pageSize: 100,//页大小，一页多少条数据
+                pageNumber: 1,//当前页，默认的
+                pageList: [100, 150, 200],
+                queryParams: pars,//往后台传递参数
+                columns: [[
+                    { field: 'ck', checkbox: true, align: 'left', width: 50 },
+                    { field: 'Id', title: '编号', width: 50 },
+                    { field: 'ShowImg', title: '展示图片', width: 100 },
+                    { field: 'Url', title: '链接地址', width: 100 },
+
+                ]],
+                toolbar: [{
+                    id: 'btnDelte',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function () {
+
+
+                        deleteInfo();
+                    }
+
+
+                }, {
+                    id: 'btnAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: function () {
+
+                        addInfo();
+                    }
+
+
+                }, {
+                    id: 'btnEdit',
+                    text: '编辑',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+
+                        editInfo();
+                    }
+
+
+                },  {
+                    id: 'btnsearch',
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler: function () {
+                        //传值
+                        var pars = {
+                            iccbn: "",
+                            name: "",
+                            classname: "",
+                            writer: "",
+
+                        };
+
+                        loadData(pars)
+                        //loadData();
+                        //searchInfo();
+                    }
+
+
+                },
+
+                ],
+            });
+        }
+
+
+        //编辑用户提交信息
+        function editInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (rows.length != 1) {
+                $.messager.alert("message", "请选择要编辑的1条记录!", "error");
+                return;
+            }
+            window.location.href = "/admin/EditCarouselImgLoad?action=edit&Id=" + rows[0].Id;
+        }
+
+        //编辑返回信息
+        function afterEdit(data) {
+
+            if (data == "ok") {
+                // $("editFrom input").val("");//异步回到
+                $('#editDiv').dialog('close');
+                $('#tt').datagrid('reload');
+                return;
+            }
+            else {
+                alert(data)
+            }
+        }
+        //添加信息
+        function addInfo() {
+            window.location.href = "/admin/EditCarouselImgLoad?action=add&Id=0";
+        }
+       
+        //删除返回信息
+        function aftersearch(data) {
+
+            if (data.msg = "ok") {
+                loadData()
+            }
+            else {
+                alert("查询失败");
+            }
+        }
+        //删除
+        function deleteInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (!rows || rows.length == 0) {
+                $.messager.alert("message", "请选择要删除的记录!", "error");
+                return;
+            }
+            $.messager.confirm("meessage", "你确定要删除该项记录？", function (r) {
+
+                if (r) {
+                    var strid = "";
+                    for (var i = 0; i < rows.length; i++) {//for循环取从第一列开始循环取出
+                        if (i < rows.length - 1) {
+                            strid = strid + rows[i].Id + ","//取到表格里面的ID属性例如：1，2，3，4，
+                        }
+                        else {
+                            strid = strid + rows[i].Id
+                        }
+                    }//for
+                    $.post("/Admin/DeleteCarouselImg", { "strid": strid }, function (data) {
+                        if (data == "yes") {
+                            $('#tt').datagrid('clearSelections');
+                            $('#tt').datagrid('reload')
+
+                        } else {
+                            alert("删除失败")
+                        }
+
+                    });
+
+                }
+            });
+
+        }
+        //添加用户信息
+
+    </script>
+
+
+</head>
+<body>
+    <div>
+
+        <table id="tt" style="width: 700px;" title="标题" iconcls="icon-edit"></table>
+    </div>
+</body>
+</html>

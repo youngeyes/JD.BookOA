@@ -1,0 +1,569 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Online_bookstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Author" Type="nvarchar" MaxLength="100" />
+          <Property Name="Press" Type="nvarchar" MaxLength="100" />
+          <Property Name="Presstime" Type="datetime" />
+          <Property Name="ISBN" Type="nvarchar" MaxLength="100" />
+          <Property Name="Smallpic" Type="nvarchar" MaxLength="100" />
+          <Property Name="Bigpic" Type="nvarchar" MaxLength="100" />
+          <Property Name="OldPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NewPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Introduce" Type="nvarchar(max)" />
+          <Property Name="Detail" Type="nvarchar(max)" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="ChildId" Type="int" />
+          <Property Name="Discuss" Type="int" />
+          <Property Name="Stock" Type="int" />
+          <Property Name="Reserve1" Type="datetime" />
+          <Property Name="Reserve2" Type="int" />
+          <Property Name="Reserve3" Type="nvarchar" MaxLength="50" />
+          <Property Name="Reserve4" Type="nvarchar" MaxLength="50" />
+          <Property Name="Reserve5" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CarouselImg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShowImg" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ChildClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Link" Type="nvarchar" MaxLength="50" />
+          <Property Name="defalse" Type="bit" />
+        </EntityType>
+        <EntityType Name="Friendship">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FriendshipMsg" Type="nvarchar" MaxLength="50" />
+          <Property Name="FriendshipUrl" Type="nvarchar" MaxLength="100" />
+          <Property Name="FriendshipClass" Type="int" />
+          <Property Name="FriendshipDetail" Type="nvarchar(max)" />
+          <Property Name="IsDIY" Type="int" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemberPwd" Type="nvarchar" MaxLength="64" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="Tell" Type="bigint" />
+          <Property Name="Sex" Type="bit" />
+          <Property Name="HeadIco" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Registertime" Type="datetime" />
+          <Property Name="Sendaddress" Type="nvarchar(max)" />
+          <Property Name="Reserve1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Reserve2" Type="int" />
+          <Property Name="Reserve3" Type="nvarchar" MaxLength="50" />
+          <Property Name="Reserve4" Type="nvarchar" MaxLength="50" />
+          <Property Name="Reserve5" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="BuyerMsg" Type="nvarchar(max)" />
+          <Property Name="SellerMsg" Type="nvarchar(max)" />
+          <Property Name="MemberId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Reply" Type="bit" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="SendAdress" Type="nvarchar(max)" />
+          <Property Name="Totalprice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Stat" Type="int" />
+          <Property Name="Createtime" Type="datetime" />
+          <Property Name="Goods" Type="nvarchar(max)" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="IsDilivery" Type="bit" />
+        </EntityType>
+        <EntityType Name="ParentClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Link" Type="nvarchar" MaxLength="50" />
+          <Property Name="defalse" Type="bit" />
+        </EntityType>
+        <EntityType Name="schildclass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SCName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ChildId" Type="int" />
+          <Property Name="Url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Link" Type="nvarchar" MaxLength="50" />
+          <Property Name="defalse" Type="bit" />
+        </EntityType>
+        <EntityType Name="Shopping_Cart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Ammount" Type="int" />
+          <Property Name="MemberId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserPwd" Type="nvarchar" MaxLength="64" />
+          <Property Name="Createtime" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Orders_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shopping_Cart_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Shopping_Cart" Type="Self.Shopping_Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shopping_Cart">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Online_bookstoreModelStoreContainer">
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarouselImg" EntityType="Self.CarouselImg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChildClass" EntityType="Self.ChildClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Friendship" EntityType="Self.Friendship" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParentClass" EntityType="Self.ParentClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="schildclass" EntityType="Self.schildclass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shopping_Cart" EntityType="Self.Shopping_Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Orders_Member" Association="Self.FK_Orders_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shopping_Cart_Member" Association="Self.FK_Shopping_Cart_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Shopping_Cart" EntitySet="Shopping_Cart" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Online_bookstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Press" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Presstime" Type="DateTime" Precision="3" />
+          <Property Name="ISBN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Smallpic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Bigpic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OldPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NewPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Introduce" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="ChildId" Type="Int32" />
+          <Property Name="Discuss" Type="Int32" />
+          <Property Name="Stock" Type="Int32" />
+          <Property Name="Reserve1" Type="DateTime" Precision="3" />
+          <Property Name="Reserve2" Type="Int32" />
+          <Property Name="Reserve3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Reserve4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Reserve5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ChildClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="defalse" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Friendship">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FriendshipMsg" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FriendshipUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FriendshipClass" Type="Int32" />
+          <Property Name="FriendshipDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDIY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberPwd" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Tell" Type="Int64" />
+          <Property Name="Sex" Type="Boolean" />
+          <Property Name="HeadIco" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Registertime" Type="DateTime" Precision="3" />
+          <Property Name="Sendaddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Reserve1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Reserve2" Type="Int32" />
+          <Property Name="Reserve3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Reserve4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Reserve5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Member" FromRole="Member" ToRole="Orders" />
+          <NavigationProperty Name="Shopping_Cart" Relationship="Self.FK_Shopping_Cart_Member" FromRole="Member" ToRole="Shopping_Cart" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SendAdress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Totalprice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Stat" Type="Int32" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+          <Property Name="Goods" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="IsDilivery" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Orders_Member" FromRole="Orders" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="ParentClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="defalse" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="schildclass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SCName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChildId" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="defalse" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Shopping_Cart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Ammount" Type="Int32" />
+          <Property Name="MemberId" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Shopping_Cart_Member" FromRole="Shopping_Cart" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPwd" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Createtime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Orders_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Shopping_Cart_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Shopping_Cart" Type="Self.Shopping_Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shopping_Cart">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Online_bookstoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Book" EntityType="Self.Book" />
+          <EntitySet Name="ChildClass" EntityType="Self.ChildClass" />
+          <EntitySet Name="Friendship" EntityType="Self.Friendship" />
+          <EntitySet Name="Member" EntityType="Self.Member" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" />
+          <EntitySet Name="ParentClass" EntityType="Self.ParentClass" />
+          <EntitySet Name="schildclass" EntityType="Self.schildclass" />
+          <EntitySet Name="Shopping_Cart" EntityType="Self.Shopping_Cart" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+          <AssociationSet Name="FK_Orders_Member" Association="Self.FK_Orders_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Shopping_Cart_Member" Association="Self.FK_Shopping_Cart_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Shopping_Cart" EntitySet="Shopping_Cart" />
+          </AssociationSet>
+          <EntitySet Name="Message" EntityType="Online_bookstoreModel.Message" />
+          <EntitySet Name="CarouselImg" EntityType="Online_bookstoreModel.CarouselImg" />
+        </EntityContainer>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BuyerMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SellerMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Reply" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CarouselImg">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ShowImg" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Online_bookstoreModelStoreContainer" CdmEntityContainer="Online_bookstoreEntities">
+          <EntitySetMapping Name="Book">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BookName" ColumnName="BookName" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Press" ColumnName="Press" />
+                <ScalarProperty Name="Presstime" ColumnName="Presstime" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Smallpic" ColumnName="Smallpic" />
+                <ScalarProperty Name="Bigpic" ColumnName="Bigpic" />
+                <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+                <ScalarProperty Name="NewPrice" ColumnName="NewPrice" />
+                <ScalarProperty Name="Introduce" ColumnName="Introduce" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+                <ScalarProperty Name="Discuss" ColumnName="Discuss" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Reserve1" ColumnName="Reserve1" />
+                <ScalarProperty Name="Reserve2" ColumnName="Reserve2" />
+                <ScalarProperty Name="Reserve3" ColumnName="Reserve3" />
+                <ScalarProperty Name="Reserve4" ColumnName="Reserve4" />
+                <ScalarProperty Name="Reserve5" ColumnName="Reserve5" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChildClass">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.ChildClass">
+              <MappingFragment StoreEntitySet="ChildClass">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CName" ColumnName="CName" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="defalse" ColumnName="defalse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Friendship">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.Friendship">
+              <MappingFragment StoreEntitySet="Friendship">
+                <ScalarProperty Name="IsDIY" ColumnName="IsDIY" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FriendshipMsg" ColumnName="FriendshipMsg" />
+                <ScalarProperty Name="FriendshipUrl" ColumnName="FriendshipUrl" />
+                <ScalarProperty Name="FriendshipClass" ColumnName="FriendshipClass" />
+                <ScalarProperty Name="FriendshipDetail" ColumnName="FriendshipDetail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="MemberPwd" ColumnName="MemberPwd" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Tell" ColumnName="Tell" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="HeadIco" ColumnName="HeadIco" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Registertime" ColumnName="Registertime" />
+                <ScalarProperty Name="Sendaddress" ColumnName="Sendaddress" />
+                <ScalarProperty Name="Reserve1" ColumnName="Reserve1" />
+                <ScalarProperty Name="Reserve2" ColumnName="Reserve2" />
+                <ScalarProperty Name="Reserve3" ColumnName="Reserve3" />
+                <ScalarProperty Name="Reserve4" ColumnName="Reserve4" />
+                <ScalarProperty Name="Reserve5" ColumnName="Reserve5" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="SendAdress" ColumnName="SendAdress" />
+                <ScalarProperty Name="Totalprice" ColumnName="Totalprice" />
+                <ScalarProperty Name="Stat" ColumnName="Stat" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+                <ScalarProperty Name="Goods" ColumnName="Goods" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="IsDilivery" ColumnName="IsDilivery" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParentClass">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.ParentClass">
+              <MappingFragment StoreEntitySet="ParentClass">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PName" ColumnName="PName" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="defalse" ColumnName="defalse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="schildclass">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.schildclass">
+              <MappingFragment StoreEntitySet="schildclass">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SCName" ColumnName="SCName" />
+                <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="defalse" ColumnName="defalse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shopping_Cart">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.Shopping_Cart">
+              <MappingFragment StoreEntitySet="Shopping_Cart">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BookName" ColumnName="BookName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserPwd" ColumnName="UserPwd" />
+                <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="Reply" ColumnName="Reply" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="SellerMsg" ColumnName="SellerMsg" />
+                <ScalarProperty Name="BuyerMsg" ColumnName="BuyerMsg" />
+                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarouselImg">
+            <EntityTypeMapping TypeName="Online_bookstoreModel.CarouselImg">
+              <MappingFragment StoreEntitySet="CarouselImg">
+                <ScalarProperty Name="ShowImg" ColumnName="ShowImg" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

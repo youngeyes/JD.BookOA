@@ -1,0 +1,491 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/js/md5.js"></script>
+    <!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>-->
+
+    <script type="text/javascript">
+        $(function () {
+
+            loadData();
+        });
+        //主界面搭建
+        function loadData(pars) {
+            $('#tt').datagrid({
+                url: '/Admin/LoadUserInfo',//获取数据
+                title: '管理员设置',
+                width: $(window).width() - 20,
+                //autoRowHeight: false,
+                //pageSize: 50,
+                //remoteSort:true,
+                height: $(window).height() - 20,
+                fitColumns: true, //列自适应
+                nowrap: false,
+                idField: 'Id',//主键列的列明
+                loadMsg: '正在加获取信息请稍后...',
+                pagination: true,//是否有分页
+                singleSelect: false,//是否单行选择
+                pageSize: 100,//页大小，一页多少条数据
+                pageNumber: 1,//当前页，默认的
+                pageList: [100, 150, 200],
+                queryParams: pars,//往后台传递参数
+                columns: [[
+                    { field: 'ck', checkbox: true, align: 'left', width: 50 },
+					{ field: 'Id', title: '编号', width: 50 },
+					{ field: 'UserId', title: '管理员账号', width: 100 },
+					{
+					    field: 'Createtime', title: '注册时间', width: 100, align: 'left',
+
+					    formatter: function (value, row, index) {
+					        if (value != null) {
+					            return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d HH:mm:ss");
+					        }
+
+					    }
+
+
+					},
+
+                ]],
+                toolbar: [{
+                    id: 'btnDelte',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function () {
+
+
+                        deleteInfo();
+                    }
+
+
+                }, {
+                    id: 'btnAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: function () {
+
+                        addInfo();
+                    }
+
+
+                }, {
+                    id: 'btnEdit',
+                    text: '编辑',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+
+                        editInfo();
+                    }
+
+
+                }, {
+                    id: 'btnsearch',
+                    text: '搜索',
+                    iconCls: 'icon-search',
+                    handler: function () {
+
+                        searchInfo();
+                    }
+
+
+                }, {
+                    id: 'btnsearch',
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler: function () {
+                        //传值
+                        var pars = {
+                            iccbn: "",
+                            name: "",
+                            classname: "",
+                            writer: "",
+
+                        };
+
+                        loadData(pars)
+                        //loadData();
+                        //searchInfo();
+                    }
+
+
+                },
+
+                ],
+            });
+        }
+
+
+        //编辑用户提交信息
+        function editInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (rows.length != 1) {
+                $.messager.alert("message", "请选择要编辑的1条记录!", "error");
+                return;
+            }
+            $.post("/Admin/EditUserInfoLoad", { "id": rows[0].Id }, function (data) {
+                if (data.msg == "ok") {
+                    $("#edUserId").val(data.sdata.UserId);
+                    $("#edUserIdH").val(data.sdata.UserId);
+                    $("#editDiv").css("display", "block");
+                    $("#editDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+                    $('#editDiv').dialog({
+                        title: '编辑用户',
+                        // width: 230,
+                        modal: true,
+                        buttons: [{
+                            text: '确定',
+                            iconCls: 'icon-ok',
+                            handler: function () {
+                                var pass1 = $("#edUserPwd1").val();
+                                var pass2 = $("#edUserPwd2").val();
+                                if (pass1 != pass2) {
+                                    alert("两次输入的密码不一致");
+                                    return false;
+                                }
+                                if (!(pass1 == "" || pass1 == null)) {
+                                    var hash = pass1;
+                                    $("#edUserPwd1").val(hash);
+                                    $("#edUserPwd2").val(hash);
+                                }
+                                $("#editFrom").submit();//提交表单
+
+                            }
+
+                        }, {
+                            text: '取消',
+                            handler: function () {
+
+                                $('#editDiv').dialog('close');
+
+                            }
+                        }]
+                    });
+
+                } else {
+                    alert("数据不存在或未知数据！");
+                }
+            });
+
+        }
+
+        //编辑返回信息
+        function afterEdit(data) {
+
+            if (data == "ok") {
+                // $("editFrom input").val("");//异步回到
+                $('#editDiv').dialog('close');
+                $('#tt').datagrid('reload');
+                return;
+            }
+            else {
+                alert(data)
+            }
+        }
+
+
+        //将序列化成json格式后日期(毫秒数)转成日期格式
+        function ChangeDateFormat(cellval) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? +(date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? +date.getDate() : date.getDate();
+            var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            return date.getFullYear() + "-" + month + "-" + currentDate + " " + hour + ":" + minute + ":" + second;
+
+        }
+        //获取日期文本框的值
+        function gettime() {
+            var temp = $('#S_time1').datetimebox('getValue');
+            var temp1 = $('#S_time2').datetimebox('getValue');
+            $("#S_name1").val(temp);
+            $("#S_name2").val(temp1);
+
+        }
+
+
+        //添加信息
+        function addInfo() {
+            $("#addDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+            $('#addDiv').dialog({
+                title: '添加管理员',
+                // width: 230,
+                //height: 240,
+                modal: true,
+                buttons: [{
+                    text: '确定',
+
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        var pass1 = $("#adUserPwd1").val();
+                        var pass2 = $("#adUserPwd2").val();
+
+                        if (!($("#adUserId").val().length > 5 && $("#adUserId").val().length <= 13)) {
+                            alert("管理员名称长度为：6-13")
+                            return false;
+                        }
+                        if (pass1 == "" && pass1 == null) {
+                            alert("密码不能为空");
+                            return false;
+                        }
+
+                        if (pass1 != pass2) {
+                            alert("两次输入的密码不一致");
+                            return false;
+                        }
+                        var hash = pass1;
+                        $("#adUserPwd1").val(hash);
+                        $("#adUserPwd2").val(hash);
+                        $("#addFrom").submit();//提交表单
+
+                    }
+
+                }, {
+                    text: '取消',
+                    handler: function () {
+
+
+
+                        $('#addDiv').dialog('close');
+
+                    }
+                }]
+            });
+        }
+        //用户搜索
+        function searchInfo() {
+            $("#searchDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+            $('#searchDiv').dialog({
+                title: '多条件搜索',
+                modal: true,
+                buttons: [{
+                    text: '确定',
+
+                    iconCls: 'icon-ok',
+                    handler: function () {
+
+                        //传值
+                        var pars = {
+                            UserId: $("#pars_UserId").val(),
+                            Createtime1: $('#s_time1').datebox('getValue'),
+                            Createtime2: $('#s_time2').datebox('getValue')
+                        };
+                        loadData(pars)
+                        $('#searchDiv').dialog('close');
+
+                    }
+
+                }, {
+                    text: '取消',
+                    handler: function () {
+
+                        $('#searchDiv').dialog('close');
+
+                    }
+                }]
+            });
+        }
+
+        //删除返回信息
+        function aftersearch(data) {
+
+            if (data.msg = "ok") {
+                loadData()
+            }
+            else {
+                alert("查询失败");
+            }
+        }
+        function afterAdd(data) {
+            if (data == "ok") {
+                $("addFrom input").val("");//异步回到
+                $("#adUserId").val("");
+                $("#adUserPwd1").val("")
+                $("#adUserPwd2").val("")
+                $('#addDiv').dialog("close");//关掉窗口
+                $('#tt').datagrid('reload');
+
+            } else {
+                $("#adUserId").val("");
+                $("#adUserPwd1").val("")
+                $("#adUserPwd2").val("")
+                alert(data);
+            }
+
+
+        }
+
+        //删除
+        function deleteInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (!rows || rows.length == 0) {
+                $.messager.alert("message", "请选择要删除的记录!", "error");
+                return;
+            }
+            $.messager.confirm("meessage", "你确定要删除该项记录？", function (r) {
+
+                if (r) {
+                    var strid = "";
+                    for (var i = 0; i < rows.length; i++) {//for循环取从第一列开始循环取出
+                        if (i < rows.length - 1) {
+                            strid = strid + rows[i].Id + ","//取到表格里面的ID属性例如：1，2，3，4，
+                        }
+                        else {
+                            strid = strid + rows[i].Id
+                        }
+                    }//for
+                    $.post("/Admin/DeleteUserInfo", { "strid": strid }, function (data) {
+                        if (data == "yes") {
+                            $('#tt').datagrid('clearSelections');
+                            $('#tt').datagrid('reload')
+
+                        } else {
+                            alert("删除失败")
+                        }
+
+                    });
+
+                }
+            });
+
+        }
+        //添加用户信息
+
+    </script>
+
+
+</head>
+<body>
+    <div>
+
+        <table id="tt" style="width: 700px;" title="标题" iconcls="icon-edit"></table>
+    </div>
+    <!--添加用户信息DIV-->
+    <div id="addDiv" style="display:none">
+
+        @using (Ajax.BeginForm("AddUserInfo", "Admin", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterAdd" }, new { id = "addFrom" }))
+        {
+
+            <table>
+                <!--异步表单-->
+                <!--Id, UserId, UserPwd, UserRole, UserSex, UserPhone, UserEamil, RegistrationTime, LastLoginTime-->
+
+
+                <tr>
+                    <td>管理员名称</td>
+                    <td>
+                        <input type="text" name="UserId" id="adUserId" placeholder="长度为6到13" />
+
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>登录密码</td>
+                    <td>
+                        <input type="password" name="UserPwd" id="adUserPwd1" placeholder="请输入密码" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>重复密码</td>
+                    <td>
+                        <input type="password" name="UserPwd2" id="adUserPwd2" placeholder="重复密码" />
+                    </td>
+
+
+                </tr>
+
+
+            </table>
+
+
+
+
+
+
+        }
+    </div>
+
+    <!--修改用户信息DIV--->
+    <div id="editDiv" style="display:none">
+
+        @using (Ajax.BeginForm("EditUserInfo", "Admin", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterEdit" }, new { id = "editFrom" }))
+        {
+            <input type="hidden" name="UserId" id="edUserIdH" />
+
+            <table>
+
+                <tr>
+                    <td>管理员名称</td>
+                    <td>
+                        <input type="text" name="UserId1" id="edUserId" disabled="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>登录密码</td>
+                    <td>
+                        <input type="password" name="UserPwd" id="edUserPwd1" placeholder="不修改请留空" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>重复密码</td>
+                    <td>
+                        <input type="password" name="UserPwd2" id="edUserPwd2" placeholder="不修改请留空" />
+                    </td>
+
+
+                </tr>
+
+
+            </table>
+
+
+
+        }
+    </div>
+
+    <!--搜索用户信息DIV--->
+    <div id="searchDiv" style="display:none">
+
+        <table>
+
+            <tr>
+                <td>管理员名称</td>
+                <td>
+                    <input type="text" name="UserId" id="pars_UserId" />
+                </td>
+            </tr>
+            <tr>
+                <td>注册时间</td>
+                <td>
+                    <input type="text" name="Createtime1" class="easyui-datebox" id="s_time1" />
+                </td>
+                <td>&nbsp&nbsp到</td>
+                <td>
+                    <input type="text" name="Createtime2" class="easyui-datebox" id="s_time2" />
+                </td>
+            </tr>
+
+        </table>
+
+
+
+    </div>
+
+</body>
+</html>

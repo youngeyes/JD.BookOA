@@ -1,0 +1,229 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="~/Content/uploadify/uploadify.css" rel="stylesheet" />
+    @*<script type="text/javascript" src="/js/jquery.js"></script>*@
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/uploadify/jquery.uploadify.js"></script>
+    <script type="text/javascript" src="/js/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="/js/select-ui.min.js"></script>
+    <link href="~/css/layui.css" rel="stylesheet" />
+    <script src="~/js/layui.js"></script>
+    <link href="~/css/adminstyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/editor/themes/default/default.css" rel="stylesheet" />
+    <script src="~/editor/kindeditor-min.js"></script>
+    <script src="~/editor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+        layui.use('laydate', function(){
+            var laydate = layui.laydate;
+        })
+    </script>
+</head>
+
+
+<body>
+
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/admin/BookView">返回</a></li>
+            @{
+                if (ViewBag.action == "edit")
+                {
+                    <li><a href="#">编辑</a></li>
+                }
+                else
+                {
+                    <li><a href="#">添加</a></li>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <div class="formtitle"><span>基本信息</span></div>
+        <input type="hidden" id="hiddenId" value="@ViewBag.Id" />
+        <input type="hidden" id="hiddenaction" value="@ViewBag.action" />
+        <input type="hidden" id="Introduce_" value="@ViewBag.Introduce" />
+        <input type="hidden" id="Detail_" value="@ViewBag.Detail" />
+        <input type="hidden" id="ChildId_" value="@ViewBag.ChildId" />
+            <ul class="forminfo">
+                <li><label>图书名</label><input type="text" id="BookName" name="BookName" class="dfinput" value="@ViewBag.BookName" /></li>
+                <li><label>作者</label><input type="text" id="Author" name="Author" class="dfinput" value="@ViewBag.Author" /></li>
+                <li><label>出版社</label><input type="text" id="Press" name="Press" class="dfinput" value="@ViewBag.Press" /></li>
+                <li><label>出版时间</label><input type="text" id="Presstime" name="Presstime" class="dfinput" value="@ViewBag.Presstime"/></li>
+                <li><label>ISBN编号</label><input type="text" id="ISBN" name="ISBN" class="dfinput" value="@ViewBag.ISBN" /></li>
+                <li><label>展示小图片</label><input name="Smallpic" type="text" id="Smallpic" class="dfinput" value="@ViewBag.Smallpic" /> <input name="" type="button" id="insertfile1" class="btn" value="文件上传" /></li>
+                <li><label>展示大图片</label><input name="Bigpic" type="text" id="Bigpic" class="dfinput" value="@ViewBag.Bigpic" /> <input name="" type="button" id="insertfile2" class="btn" value="文件上传" /></li>
+                <li><label>原价</label><input type="text" id="OldPrice" name="OldPrice" class="dfinput" value="@ViewBag.OldPrice" /></li>
+                <li><label>现价</label><input type="text" id="NewPrice" name="NewPrice" class="dfinput" value="@ViewBag.NewPrice" /></li>
+                <li><label>库存</label><input type="text" id="Stock" name="Stock" class="dfinput" value="@ViewBag.Stock" /></li>
+                <li>
+                    <label>所属父类</label>
+                    <select id="ParentId" name="ParentId" class="dfinput" onchange="change()">
+                        @{
+                            foreach (var item in ViewBag.menu)
+                            {
+                                if (ViewBag.ParentId == item.Id)
+                                {
+                                    <option value="@item.Id" selected="selected">@item.CName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.CName</option>
+                                }
+                            }
+                        }
+                    </select>
+                </li>
+                <li>
+                    <label>所属子类</label>
+                    <select id="ChildId" name="ChildId" class="dfinput"></select>
+                </li>
+                <li>
+                    <label>图书介绍</label>
+                    <textarea id="Introduce" name="Introduce" class="dfinput" style="width:800px;height:100px;"></textarea>
+
+                </li>
+                <li>
+                    <label>图书详情</label>
+                    <textarea id="Detail" name="Detail" style="width: 800px; height:500px; visibility: hidden; "></textarea>
+
+                </li>
+                <li><label>&nbsp;</label><input name="getHtml" type="submit" class="btn" id="k" value="确认保存" /></li>
+            </ul>
+    </div>
+    <script type="text/javascript">
+
+        $(function () {
+            change();
+            KindEditor.ready(function (Kfc) {
+                var editor = Kfc.editor({
+                    allowFileManager: true,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest'
+                });
+                Kfc('#insertfile1').click(function () {
+                    editor.loadPlugin('insertfile', function () {
+                        editor.plugin.fileDialog({
+                            fileUrl: Kfc('#url').val(),
+                            clickFn: function (url, title) {
+                                Kfc('#Smallpic').val(url);
+                                editor.hideDialog();
+                            }
+                        });
+                    });
+                });
+                Kfc('#insertfile2').click(function () {
+                    editor.loadPlugin('insertfile', function () {
+                        editor.plugin.fileDialog({
+                            fileUrl: Kfc('#url').val(),
+                            clickFn: function (url, title) {
+                                Kfc('#Bigpic').val(url);
+                                editor.hideDialog();
+                            }
+                        });
+                    });
+                });
+            });
+
+
+        })
+        $(function () {
+            var num = 0;
+            num = parseInt($("#num").val());
+            KindEditor.ready(function (Kd) {
+                var editor = Kd.editor({
+                    allowFileManager: true,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest'
+                });
+                Kd('#addimg').click(function () {
+                    editor.loadPlugin('insertfile', function () {
+                        editor.plugin.fileDialog({
+                            fileUrl: Kd('#SecondMessage').val(),
+                            clickFn: function (url, title) {
+                                editor.hideDialog();
+                            }
+                        });
+                    });
+                });
+            });
+
+
+
+        })
+        $(function () {
+            var editor1;
+            KindEditor.ready(function (K) {
+                editor1 = K.create('textarea[name="Detail"]', {
+                    resizeType: 1,
+                    allowPreviewEmoticons: false,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest',
+                    allowFileManager: true,
+                    allowImageUpload: true,
+                });
+                editor1.html($("#Detail_").val());
+                $("#Introduce").html($("#Introduce_").val());
+                K('input[name=getHtml]').click(function (e) {
+                    //alert(editor.text());
+                    var html = editor1.html();
+                    var str = html.toString();
+                    var introduce = $("#Introduce").val();
+                    //Id, title, flage, msg, img
+                    $.post("/Admin/EditBookSave", {
+                        "BookName": $("#BookName").val(), "Author": $("#Author").val(), "Press": $("#Press").val(),
+                        "Presstime": $("#Presstime").val(), "ISBN": $("#ISBN").val(), "Smallpic": $("#Smallpic").val(),
+                        "Bigpic": $("#Bigpic").val(), "OldPrice": $("#OldPrice").val(), "NewPrice": $("#NewPrice").val(),
+                        "Introduce": introduce, "Detail": str, "Stock": $("#Stock").val(), "ParentId": $("#ParentId").val(),
+                        "ChildId": $("#ChildId").val(), "action": $("#hiddenaction").val(), "Id": $("#hiddenId").val(),
+                    }, function (data) {
+                        if (data == "ok") {
+                            alert("保存成功");
+                            window.location.href = "/admin/BookView";
+
+                        }
+                        else {
+                            alert("保存失败");
+                        }
+                    });
+                });
+            });
+
+        })
+        function change() {
+            var parentId = $("#ParentId").val();
+            var ChildId_ = $("#ChildId_").val();
+            //alert(parentId);
+            $("#ChildId").html("");
+            $.post("/admin/ChangeMenu", { "ParentId": parentId }, function (data) {
+                if (data.msg=="ok") {
+                    var val = "";
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (ChildId_ == data.rows[i].Id) {
+                            val += '<option value="' + data.rows[i].Id + '" selected="selected">' + data.rows[i].SCName + '</option>'
+                        } else {
+                            val += '<option value="' + data.rows[i].Id + '">' + data.rows[i].SCName + '</option>'
+                        }
+                    }
+                    $("#ChildId").append(val);
+                }
+            });
+           
+        }
+    </script>
+</body>
+
+</html>

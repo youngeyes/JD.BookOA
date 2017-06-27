@@ -1,0 +1,440 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/js/md5.js"></script>
+    <!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>-->
+
+    <script type="text/javascript">
+        $(function () {
+
+            loadData();
+        });
+        //主界面搭建
+        function loadData(pars) {
+            $('#tt').datagrid({
+                url: '/Admin/Loadschildclass',//获取数据
+                title: '图书子菜单设置',
+                width: $(window).width() - 20,
+                //autoRowHeight: false,
+                //pageSize: 50,
+                //remoteSort:true,
+                height: $(window).height() - 20,
+                fitColumns: true, //列自适应
+                nowrap: false,
+                idField: 'Id',//主键列的列明
+                loadMsg: '正在加获取信息请稍后...',
+                pagination: true,//是否有分页
+                singleSelect: false,//是否单行选择
+                pageSize: 100,//页大小，一页多少条数据
+                pageNumber: 1,//当前页，默认的
+                pageList: [100, 150, 200],
+                queryParams: pars,//往后台传递参数
+                columns: [[
+                    { field: 'ck', checkbox: true, align: 'left', width: 50 },
+                    { field: 'Id', title: '编号', width: 50 },
+                    { field: 'SCName', title: '子菜单名称', width: 100 },
+
+
+                ]],
+                toolbar: [{
+                    id: 'btnDelte',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function () {
+
+
+                        deleteInfo();
+                    }
+
+
+                }, {
+                    id: 'btnAdd',
+                    text: '添加',
+                    iconCls: 'icon-add',
+                    handler: function () {
+
+                        addInfo();
+                    }
+
+
+                }, {
+                    id: 'btnEdit',
+                    text: '编辑',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+
+                        editInfo();
+                    }
+
+
+                }, {
+                    id: 'btnsearch',
+                    text: '搜索',
+                    iconCls: 'icon-search',
+                    handler: function () {
+
+                        searchInfo();
+                    }
+
+
+                }, {
+                    id: 'btnsearch',
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler: function () {
+                        //传值
+                        var pars = {
+                            iccbn: "",
+                            name: "",
+                            classname: "",
+                            writer: "",
+
+                        };
+
+                        loadData(pars)
+                        //loadData();
+                        //searchInfo();
+                    }
+
+
+                },
+
+                ],
+            });
+        }
+
+
+        //编辑用户提交信息
+        function editInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (rows.length != 1) {
+                $.messager.alert("message", "请选择要编辑的1条记录!", "error");
+                return;
+            }
+            $.post("/Admin/EditschildclassLoad", { "id": rows[0].Id }, function (data) {
+                if (data.msg == "ok") {
+                    $("#edUserIdH").val(data.sdata.Id);
+                    $("#edSCName").val(data.sdata.SCName);
+                    $("#edChildId").html("");
+                    var val = '';
+                    for (var i = 0; i < data.rows.length; i++) {
+                        if (data.rows[i].Id == data.sdata.ChildId) {
+                            val += '<option value="' + data.rows[i].Id + '" selected="selected">' + data.rows[i].CName + '</option>'
+                        } else {
+                            val += '<option value="' + data.rows[i].Id + '">' + data.rows[i].CName + '</option>'
+                        }
+                    }
+                    $("#edChildId").append(val);
+                    $("#editDiv").css("display", "block");
+                    $("#editDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+                    $('#editDiv').dialog({
+                        title: '编辑子菜单',
+                        // width: 230,
+                        modal: true,
+                        buttons: [{
+                            text: '确定',
+                            iconCls: 'icon-ok',
+                            handler: function () {
+                                var CName = $("#edSCName").val();
+
+                                if (CName == "" || CName == null) {
+                                    alert("子菜单不能为空");
+                                    return false;
+                                }
+                                $("#editFrom").submit();//提交表单
+
+                            }
+
+                        }, {
+                            text: '取消',
+                            handler: function () {
+
+                                $('#editDiv').dialog('close');
+
+                            }
+                        }]
+                    });
+
+                } else {
+                    alert("数据不存在或未知数据！");
+                }
+            });
+
+        }
+
+        //编辑返回信息
+        function afterEdit(data) {
+
+            if (data == "ok") {
+                // $("editFrom input").val("");//异步回到
+                $('#editDiv').dialog('close');
+                $('#tt').datagrid('reload');
+                return;
+            }
+            else {
+                alert(data)
+            }
+        }
+        //添加信息
+        function addInfo() {
+            $("#addDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+            $('#addDiv').dialog({
+                title: '添加子菜单',
+                // width: 230,
+                //height: 240,
+                modal: true,
+                buttons: [{
+                    text: '确定',
+
+                    iconCls: 'icon-ok',
+                    handler: function () {
+
+                        var SCName = $("adSCName").val();
+                        if (SCName == "" && SCName == null) {
+                            alert("子菜单不能为空");
+                            return false;
+                        }
+                        $("#addFrom").submit();//提交表单
+
+                    }
+
+                }, {
+                    text: '取消',
+                    handler: function () {
+
+
+
+                        $('#addDiv').dialog('close');
+
+                    }
+                }]
+            });
+        }
+        //用户搜索
+        function searchInfo() {
+            $("#searchDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+            $('#searchDiv').dialog({
+                title: '多条件搜索',
+                modal: true,
+                buttons: [{
+                    text: '确定',
+
+                    iconCls: 'icon-ok',
+                    handler: function () {
+
+                        //传值
+                        var pars = {
+                            SCName: $("#pars_SCName").val(),
+                            ChildId: $('#adChildId').val(),
+                        };
+                        loadData(pars)
+                        $('#searchDiv').dialog('close');
+
+                    }
+
+                }, {
+                    text: '取消',
+                    handler: function () {
+
+                        $('#searchDiv').dialog('close');
+
+                    }
+                }]
+            });
+        }
+
+        //删除返回信息
+        function aftersearch(data) {
+
+            if (data.msg = "ok") {
+                loadData()
+            }
+            else {
+                alert("查询失败");
+            }
+        }
+        function afterAdd(data) {
+            if (data == "ok") {
+                $("addFrom input").val("");//异步回到
+                $("#adUserId").val("");
+                $("#adUserPwd1").val("")
+                $("#adUserPwd2").val("")
+                $('#addDiv').dialog("close");//关掉窗口
+                $('#tt').datagrid('reload');
+
+            } else {
+                $("#adUserId").val("");
+                $("#adUserPwd1").val("")
+                $("#adUserPwd2").val("")
+                alert(data);
+            }
+
+
+        }
+
+        //删除
+        function deleteInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (!rows || rows.length == 0) {
+                $.messager.alert("message", "请选择要删除的记录!", "error");
+                return;
+            }
+            $.messager.confirm("meessage", "你确定要删除该项记录？", function (r) {
+
+                if (r) {
+                    var strid = "";
+                    for (var i = 0; i < rows.length; i++) {//for循环取从第一列开始循环取出
+                        if (i < rows.length - 1) {
+                            strid = strid + rows[i].Id + ","//取到表格里面的ID属性例如：1，2，3，4，
+                        }
+                        else {
+                            strid = strid + rows[i].Id
+                        }
+                    }//for
+                    $.post("/Admin/Deleteschildclass", { "strid": strid }, function (data) {
+                        if (data == "yes") {
+                            $('#tt').datagrid('clearSelections');
+                            $('#tt').datagrid('reload')
+
+                        } else {
+                            alert("删除失败")
+                        }
+
+                    });
+
+                }
+            });
+
+        }
+        //添加用户信息
+
+    </script>
+
+
+</head>
+<body>
+    <div>
+
+        <table id="tt" style="width: 700px;" title="标题" iconcls="icon-edit"></table>
+    </div>
+    <!--添加用户信息DIV-->
+    <div id="addDiv" style="display:none">
+
+        @using (Ajax.BeginForm("Addschildclass", "Admin", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterAdd" }, new { id = "addFrom" }))
+        {
+
+            <table>
+                <!--异步表单-->
+                <!--Id, UserId, UserPwd, UserRole, UserSex, UserPhone, UserEamil, RegistrationTime, LastLoginTime-->
+
+
+                <tr>
+                    <td>子菜单名称</td>
+                    <td>
+                        <input type="text" name="SCName" id="adSCName" placeholder="请输入子菜单名称" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>所属父菜单</td>
+                    <td>
+                        <select name="ChildId" id="adChildId">
+                            @{
+            foreach (var item in ViewBag.schildclass)
+            {
+                    <option value="@item.Id">@item.CName</option>
+            }
+                            }
+                        </select>
+
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+
+
+        }
+    </div>
+
+    <!--修改用户信息DIV--->
+    <div id="editDiv" style="display:none">
+
+        @using (Ajax.BeginForm("Editschildclass", "Admin", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterEdit" }, new { id = "editFrom" }))
+        {
+            <input type="hidden" name="Id" id="edUserIdH" />
+
+            <table>
+
+                <tr>
+                    <td>子菜单名称</td>
+                    <td>
+                        <input type="text" name="SCName" id="edSCName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>所属父菜单</td>
+                    <td>
+                        <select name="ChildId" id="edChildId"></select>
+
+                    </td>
+                </tr>
+
+            </table>
+
+
+
+        }
+    </div>
+
+    <!--搜索用户信息DIV--->
+    <div id="searchDiv" style="display:none">
+
+        <table>
+
+            <tr>
+                <td>子菜单名称</td>
+                <td>
+                    <input type="text" name="SCName" id="pars_SCName" />
+                </td>
+            </tr>
+            <tr>
+                <td>所属父菜单</td>
+                <td>
+                    <select name="ChildId" id="adChildId">
+                        @{
+                            foreach (var item in ViewBag.schildclass)
+                            {
+                                <option value="@item.Id">@item.CName</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+            </tr>
+
+        </table>
+
+
+
+    </div>
+
+</body>
+</html>

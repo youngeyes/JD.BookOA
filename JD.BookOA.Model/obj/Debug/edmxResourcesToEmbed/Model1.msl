@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Online_bookstoreModelStoreContainer" CdmEntityContainer="Online_bookstoreEntities">
+    <EntitySetMapping Name="Book">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Press" ColumnName="Press" />
+          <ScalarProperty Name="Presstime" ColumnName="Presstime" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="Smallpic" ColumnName="Smallpic" />
+          <ScalarProperty Name="Bigpic" ColumnName="Bigpic" />
+          <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+          <ScalarProperty Name="NewPrice" ColumnName="NewPrice" />
+          <ScalarProperty Name="Introduce" ColumnName="Introduce" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+          <ScalarProperty Name="Discuss" ColumnName="Discuss" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="Reserve1" ColumnName="Reserve1" />
+          <ScalarProperty Name="Reserve2" ColumnName="Reserve2" />
+          <ScalarProperty Name="Reserve3" ColumnName="Reserve3" />
+          <ScalarProperty Name="Reserve4" ColumnName="Reserve4" />
+          <ScalarProperty Name="Reserve5" ColumnName="Reserve5" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChildClass">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.ChildClass">
+        <MappingFragment StoreEntitySet="ChildClass">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CName" ColumnName="CName" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="defalse" ColumnName="defalse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Friendship">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.Friendship">
+        <MappingFragment StoreEntitySet="Friendship">
+          <ScalarProperty Name="IsDIY" ColumnName="IsDIY" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FriendshipMsg" ColumnName="FriendshipMsg" />
+          <ScalarProperty Name="FriendshipUrl" ColumnName="FriendshipUrl" />
+          <ScalarProperty Name="FriendshipClass" ColumnName="FriendshipClass" />
+          <ScalarProperty Name="FriendshipDetail" ColumnName="FriendshipDetail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Member">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.Member">
+        <MappingFragment StoreEntitySet="Member">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="MemberPwd" ColumnName="MemberPwd" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="Tell" ColumnName="Tell" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="HeadIco" ColumnName="HeadIco" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Registertime" ColumnName="Registertime" />
+          <ScalarProperty Name="Sendaddress" ColumnName="Sendaddress" />
+          <ScalarProperty Name="Reserve1" ColumnName="Reserve1" />
+          <ScalarProperty Name="Reserve2" ColumnName="Reserve2" />
+          <ScalarProperty Name="Reserve3" ColumnName="Reserve3" />
+          <ScalarProperty Name="Reserve4" ColumnName="Reserve4" />
+          <ScalarProperty Name="Reserve5" ColumnName="Reserve5" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.Orders">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+          <ScalarProperty Name="SendAdress" ColumnName="SendAdress" />
+          <ScalarProperty Name="Totalprice" ColumnName="Totalprice" />
+          <ScalarProperty Name="Stat" ColumnName="Stat" />
+          <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+          <ScalarProperty Name="Goods" ColumnName="Goods" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="IsDilivery" ColumnName="IsDilivery" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ParentClass">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.ParentClass">
+        <MappingFragment StoreEntitySet="ParentClass">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PName" ColumnName="PName" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="defalse" ColumnName="defalse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="schildclass">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.schildclass">
+        <MappingFragment StoreEntitySet="schildclass">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SCName" ColumnName="SCName" />
+          <ScalarProperty Name="ChildId" ColumnName="ChildId" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="defalse" ColumnName="defalse" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shopping_Cart">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.Shopping_Cart">
+        <MappingFragment StoreEntitySet="Shopping_Cart">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfo">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.UserInfo">
+        <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserPwd" ColumnName="UserPwd" />
+          <ScalarProperty Name="Createtime" ColumnName="Createtime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Message">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.Message">
+        <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="Reply" ColumnName="Reply" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="SellerMsg" ColumnName="SellerMsg" />
+          <ScalarProperty Name="BuyerMsg" ColumnName="BuyerMsg" />
+          <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarouselImg">
+      <EntityTypeMapping TypeName="Online_bookstoreModel.CarouselImg">
+        <MappingFragment StoreEntitySet="CarouselImg">
+          <ScalarProperty Name="ShowImg" ColumnName="ShowImg" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

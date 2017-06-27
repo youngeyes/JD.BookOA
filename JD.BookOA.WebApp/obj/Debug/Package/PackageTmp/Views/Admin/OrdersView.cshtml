@@ -1,0 +1,336 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/js/md5.js"></script>
+    <!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>-->
+
+    <script type="text/javascript">
+        $(function () {
+
+            loadData();
+        });
+        //主界面搭建
+        function loadData(pars) {
+            $('#tt').datagrid({
+                url: '/Admin/LoadOrders',//获取数据
+                title: '订单信息管理',
+                width: $(window).width() - 20,
+                //autoRowHeight: false,
+                //pageSize: 50,
+                //remoteSort:true,
+                height: $(window).height() - 20,
+                fitColumns: true, //列自适应
+                nowrap: false,
+                idField: 'Id',//主键列的列明
+                loadMsg: '正在加获取信息请稍后...',
+                pagination: true,//是否有分页
+                singleSelect: false,//是否单行选择
+                pageSize: 100,//页大小，一页多少条数据
+                pageNumber: 1,//当前页，默认的
+                pageList: [100, 150, 200],
+                queryParams: pars,//往后台传递参数
+                columns: [[
+                    { field: 'ck', checkbox: true, align: 'left', width: 50 },
+                    { field: 'Id', title: '编号', width: 50 },
+                    { field: 'OrderNum', title: '订单号', width: 100 },
+                    { field: 'SendAdress', title: '送货地址', width: 100 },
+                    { field: 'Totalprice', title: '订单总金额', width: 100 },
+                    { field: 'Goods', title: '订单商品', width: 100 },
+                    {
+                        field: 'Stat', title: '订单状态', width: 100,
+                        formatter: function (value, row, index) {
+                            if (value == 1) {
+                                return "待付款";
+                            } if (value == 2) {
+                                return "已付款";
+                            } if (value == 3) {
+                                return "已完成";
+                            }
+                        }
+                    },
+                    {
+                        field: 'Createtime', title: '订单创建时间', width: 100,
+                        formatter: function (value, row, index) {
+                            if (value != null) {
+                                return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d HH:mm:ss");
+                            }
+
+                        }
+                    },
+                    {
+                        field: 'IsDilivery', title: '订单是否派送', width: 100,
+                        formatter: function (value, row, index) {
+                            if (value == false) {
+                                return "待发货";
+                            } if (value == true) {
+                                return "已发货";
+                            }
+
+                        }
+                    },
+                    { field: 'MemberId', title: '下单会员', width: 100 },
+                ]],
+                toolbar: [{
+                    id: 'btnDelte',
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function () {
+
+
+                        deleteInfo();
+                    }
+
+
+                }, {
+                    id: 'btnEdit',
+                    text: '派送',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+
+                        editInfo();
+                    }
+
+
+                }, {
+                    id: 'btnsearch',
+                    text: '搜索',
+                    iconCls: 'icon-search',
+                    handler: function () {
+
+                        searchInfo();
+                    }
+
+
+                }, {
+                    id: 'btnsearch',
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler: function () {
+                        //传值
+                        var pars = {
+                            iccbn: "",
+                            name: "",
+                            classname: "",
+                            writer: "",
+
+                        };
+
+                        loadData(pars)
+                        //loadData();
+                        //searchInfo();
+                    }
+
+
+                },
+
+                ],
+            });
+        }
+
+
+        //编辑用户提交信息
+        function editInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (rows.length != 1) {
+                $.messager.alert("message", "请选择要派送的订单记录!", "error");
+                return;
+            }
+            $.post("/Admin/SendOrdersLoad", { "Id": rows[0].Id }, function (data) {
+                if (data.msg == "ok") {
+                    alert("派送成功");
+                    afterEdit();
+                } else {
+                    alert("该订单已经派送");
+                }
+            });
+        }
+        //将序列化成json格式后日期(毫秒数)转成日期格式
+        function ChangeDateFormat(cellval) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? +(date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? +date.getDate() : date.getDate();
+            var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            return date.getFullYear() + "-" + month + "-" + currentDate + " " + hour + ":" + minute + ":" + second;
+
+        }
+        //获取日期文本框的值
+        function gettime() {
+            var temp = $('#S_time1').datetimebox('getValue');
+            var temp1 = $('#S_time2').datetimebox('getValue');
+            $("#S_name1").val(temp);
+            $("#S_name2").val(temp1);
+
+        }
+        //编辑返回信息
+        function afterEdit() {
+
+            var pars = {
+                iccbn: "",
+                name: "",
+                classname: "",
+                writer: "",
+
+            };
+
+            loadData(pars);
+        }
+        //用户搜索
+        function searchInfo() {
+            $("#searchDiv").css("display", "block");//隐藏DIV，此时可见度为none，
+            $('#searchDiv').dialog({
+                title: '多条件搜索',
+                modal: true,
+                buttons: [{
+                    text: '确定',
+
+                    iconCls: 'icon-ok',
+                    handler: function () {
+
+                        //传值
+                        var pars = {
+                            OrderNum: $("#pars_OrderNum").val(),
+                            Stat: $('#adStat').val(),
+                            IsDilivery: $("#adIsDilivery").val(),
+                            Createtime1: $('#s_time1').datebox('getValue'),
+                            Createtime2: $('#s_time2').datebox('getValue')
+                        };
+                        loadData(pars)
+                        $('#searchDiv').dialog('close');
+
+                    }
+
+                }, {
+                    text: '取消',
+                    handler: function () {
+
+                        $('#searchDiv').dialog('close');
+
+                    }
+                }]
+            });
+        }
+
+        //删除返回信息
+        function aftersearch(data) {
+
+            if (data.msg = "ok") {
+                loadData()
+            }
+            else {
+                alert("查询失败");
+            }
+        }
+        //删除
+        function deleteInfo() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (!rows || rows.length == 0) {
+                $.messager.alert("message", "请选择要删除的记录!", "error");
+                return;
+            }
+            $.messager.confirm("meessage", "你确定要删除该项记录？", function (r) {
+
+                if (r) {
+                    var strid = "";
+                    for (var i = 0; i < rows.length; i++) {//for循环取从第一列开始循环取出
+                        if (i < rows.length - 1) {
+                            strid = strid + rows[i].Id + ","//取到表格里面的ID属性例如：1，2，3，4，
+                        }
+                        else {
+                            strid = strid + rows[i].Id
+                        }
+                    }//for
+                    $.post("/Admin/DeleteOrders", { "strid": strid }, function (data) {
+                        if (data == "yes") {
+                            $('#tt').datagrid('clearSelections');
+                            $('#tt').datagrid('reload')
+
+                        } else {
+                            alert("删除失败")
+                        }
+
+                    });
+
+                }
+            });
+
+        }
+        //添加用户信息
+
+    </script>
+
+
+</head>
+<body>
+    <div>
+
+        <table id="tt" style="width: 700px;" title="标题" iconcls="icon-edit"></table>
+    </div>
+    <!--搜索用户信息DIV--->
+    <div id="searchDiv" style="display:none">
+
+        <table>
+
+            <tr>
+                <td>订单编号</td>
+                <td>
+                    <input type="text" name="OrderNum" id="pars_OrderNum" />
+                </td>
+            </tr>
+            <tr>
+                <td>订单状态</td>
+                <td>
+                    <select name="Stat" id="adStat">
+                        <option value=""></option>
+                        <option value="1">待付款</option>
+                        <option value="2">已付款</option>
+                        <option value="3">已完成</option>
+                    </select>
+
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td>
+                    <input type="text" name="Createtime1" class="easyui-datebox" id="s_time1" />
+                </td>
+                <td>&nbsp&nbsp到</td>
+                <td>
+                    <input type="text" name="Createtime2" class="easyui-datebox" id="s_time2" />
+                </td>
+            </tr>
+            <tr>
+                <td>派送状态</td>
+                <td>
+                    <select name="IsDilivery" id="adIsDilivery">
+                        <option value=""></option>
+                        <option value="false">待发货</option>
+                        <option value="true">已发货</option>
+                    </select>
+
+                </td>
+            </tr>
+        </table>
+
+
+
+    </div>
+
+</body>
+</html>

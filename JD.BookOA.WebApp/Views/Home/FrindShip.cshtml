@@ -1,0 +1,181 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.friend.FriendshipMsg</title>
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary JavaScript plugins) -->
+    <script type='text/javascript' src="/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <!-- <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script> -->
+    <!-- start menu -->
+    <link href="/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/megamenu.js"></script>
+    <script>$(document).ready(function () { $(".megamenu").megamenu(); });</script>
+    <script src="/js/menu_jquery.js"></script>
+    <script src="/js/simpleCart.min.js"> </script>
+</head>
+<body>
+
+    <!-- header -->
+    <div class="header_bg">
+        <div class="container">
+            <div class="header">
+                <div class="head-t">
+                    <div class="logo">
+                        <a href="/"><img src="/images/logo1.png" class="img-responsive" alt="" /> </a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!-- start header menu -->
+                <ul class="megamenu skyblue">
+                    <li class="active grid"><a class="color1" href="/">首页</a></li>
+                    <!--分类-->
+                    @{
+                        foreach (var item in ViewBag.pmenu)
+                        {
+                            <li class="grid">
+                                <a class="color4" href="@item.Link">@item.PName</a>
+                                <div class="megapanel">
+                                    <div class="row">
+                                        @{
+                            foreach (var item1 in ViewBag.cmenu)
+                            {
+                                if (item1.ParentId == item.Id)
+                                {
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <h4>@item1.CName</h4>
+                                            <ul>
+                                                @{
+                                    foreach (var item2 in ViewBag.scmenu)
+                                    {
+                                        if (item2.ChildId == item1.Id)
+                                        {
+                                            string url = "/Home/SortView?Parentid=" + item2.ChildId + "&childid=" + item2.Id;
+                                            <li><a href="@url">@item2.SCName</a></li>
+                                        }
+                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        <div class="col2"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- content -->
+    <div class="container">
+        <div class="women_main">
+
+            @(new HtmlString(ViewBag.Friend.FriendshipDetail))
+
+        </div>
+    </div>
+    <!--底部链接-->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 cust">
+                <h4>购物指南</h4>
+                <ul>
+                    @{
+                        foreach (var item in ViewBag.friend_)
+                        {
+                            if (item.FriendshipClass == 1)
+                            {
+                                if (item.IsDIY == 1)
+                                {
+
+                                    <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+
+
+                                }
+                                else
+                                {
+                                    <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                                }
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-md-3 abt">
+                <h4>支付方式</h4>
+                @{
+                    foreach (var item in ViewBag.friend_)
+                    {
+                        if (item.FriendshipClass == 2)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 myac">
+                <h4>商家服务</h4>
+                @{
+                    foreach (var item in ViewBag.friend_)
+                    {
+                        if (item.FriendshipClass == 3)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-5 our-st">
+                <h4>联系方式</h4>
+                <li><i class="add"> </i>江南大学</li>
+                <li><i class="phone"> </i>18861822100</li>
+                <li><a href=""><i class="mail"> </i>youngeyes@yeah.net</a></li>
+
+            </div>
+            <div class="clearfix"> </div>
+            <p>Copyright &copy;江南大学毕设作品</p>
+            <!--<p>Copyright &copy;江大物联毕设作品</p>-->
+        </div>
+    </div>
+</body>
+</html>

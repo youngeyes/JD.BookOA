@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <object type="JD.BookOA.WebApp.Controllers.LoginController, JD.BookOA.WebApp" singleton="false" >
+    <property name="UserInfoService" ref="UserInfoService" />
+  </object>
+  <object type="JD.BookOA.WebApp.Controllers.HomeController, JD.BookOA.WebApp" singleton="false" >
+    <property name="ParentClassService" ref="ParentClassService" />
+    <property name="ChildClassService" ref="ChildClassService" />
+    <property name="schildclassService" ref="schildclassService" />
+    <property name="BookService" ref="BookService" />
+    <property name="MemberService" ref="MemberService" />
+    <property name="FriendshipService" ref="FriendshipService" />
+    <property name="Shopping_CartService" ref="Shopping_CartService" />
+  <property name="OrdersService" ref="OrdersService" />
+    <property name="MessageService" ref="MessageService" />
+    <property name="CarouselImgService" ref="CarouselImgService" />
+  </object>
+  <object type="JD.BookOA.WebApp.Controllers.AdminController, JD.BookOA.WebApp" singleton="false" >
+    <property name="UserInfoService" ref="UserInfoService" />
+    <property name="MemberService" ref="MemberService" />
+    <property name="BookService" ref="BookService" />
+    <property name="ChildClassService" ref="ChildClassService" />
+    <property name="schildclassService" ref="schildclassService" />
+    <property name="ParentClassService" ref="ParentClassService" />
+    <property name="FriendshipService" ref="FriendshipService" />
+  <property name="OrdersService" ref="OrdersService" />
+    <property name="MessageService" ref="MessageService" />
+    <property name="CarouselImgService" ref="CarouselImgService" />
+  </object>
+</objects>

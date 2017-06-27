@@ -1,0 +1,461 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>首页</title>
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary JavaScript plugins) -->
+    <script type='text/javascript' src="/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- start menu -->
+    <link href="/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/js/megamenu.js"></script>
+    <script>$(document).ready(function () { $(".megamenu").megamenu(); });</script>
+    <script src="/js/menu_jquery.js"></script>
+    <link rel="stylesheet" href="/css/pageSwitch.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/layui.css" media="screen" />
+    <script src="/js/pageSwitch.min.js"> </script>
+    <script src="/js/layui.js" charset="utf-8"> </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#userdiv").hide();
+            GetCookie();
+            function GetCookie() {
+                $.post("/Cookie/GetCookie", function (data) {
+                    if (data.member != null && data.member != "") {
+                        $("#userdiv").show();
+                        $("#logindiv").hide();
+                        $("#memerid").val(data.memberid);
+                        //$("#userdiv span").html(data.member);
+                    } else {
+                        $("#userdiv").hide();
+                        $("#logindiv").show();
+                        $("#memerid").val(0);
+                    }
+                })
+            }
+            //登录事件
+            $("#login").click(function () {
+                var memberid = $("#memberid").val();
+                var password = $("#password").val();
+                if (memberid.length <= 0) {
+                    alert("会员账号不能为空");
+                    return false;
+                }
+                if (password.length <= 0) {
+                    alert("登录密码不能为空");
+                    return false;
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/home/MemberLogin",
+                        data: $("#loginForm").serialize(),
+                        async: false,
+                        success: function (data) {
+                            if (data.msg == "ok") {
+                                alert("登录成功");
+                                //window.location.href = "/home/";
+                                $.post("/Cookie/SaveCookie", { "member": memberid, "memberid": data.MemberId }, function (data) {
+                                    if (data == "ok") {
+                                        //window.location.href = "/";
+                                        GetCookie();
+                                        window.location.reload();
+                                    }
+                                });
+                            } else {
+                                alert("会员名或密码错误，登录失败");
+                            }
+                        }
+                    })
+                }
+            });
+            //注销事件
+            $("#zx").click(function () {
+                $.post("/Cookie/ClearCookie", function (data) {
+                    if (data == "ok") {
+                        window.location.reload();
+                    }
+                });
+            });
+            //设置弹出层事件
+            $("#userBox").hide();
+            $("#userButton").click(function () {
+                var display = $("#userBox").css('display');
+                if ($("#userBox").is(":hidden")) {
+                    $("#userBox").show();
+                } else {
+                    $("#userBox").hide();
+                }
+            });
+            //个人信息
+            $("#person").click(function () {
+                var memberid = $("#memerid").val();
+                window.location.href = "/home/MemberCommit?MemberId=" + memberid;
+                //alert(memberid);
+            })
+            //我的购物车
+            $("#mycart").click(function () {
+                var memberid = $("#memerid").val();
+                //$.post("/home/CartView", { "MemberId": memberid },function)
+                window.location.href = "/home/CartView?MemberId=" + memberid;
+            })
+            //我的订单
+            $("#myorder").click(function () {
+                var memberid = $("#memerid").val();
+                window.location.href = "/home/OrderInfo?MemberId=" + memberid;
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- header -->
+    <div class="header_bg">
+        <div class="container">
+            <div class="header">
+                <div class="head-t">
+                    <div class="logo">
+                        <a href="/"><img src="/images/logo1.png" class="img-responsive" alt="" /> </a>
+                        <input type="hidden" id="memerid" />
+                    </div>
+                    <!--登录框div -->
+                    <div class="header_right">
+                        <div class="rgt-bottom">
+                            <div class="log" id="logindiv">
+                                <div class="login">
+                                    <div id="loginContainer">
+                                        <a href="#" id="loginButton"><span>登录</span></a>
+                                        <div id="loginBox">
+                                            <form id="loginForm">
+                                                <fieldset id="body">
+                                                    <fieldset>
+                                                        <label for="email">会员名</label>
+                                                        <input type="text" name="member" id="memberid" placeholder="请输入昵称/手机号/邮箱">
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <label for="password">密码</label>
+                                                        <input type="password" name="MemberPwd" id="password" placeholder="请输入密码">
+                                                    </fieldset>
+                                                    <input type="submit" id="login" value="登录">
+                                                </fieldset>
+                                                <span><a href="/home/ForgetPwdView">忘记密码?</a></span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="log" id="userdiv">
+                                <div class="login">
+                                    <div id="userContainer">
+                                        <a href="#" id="userButton"><span>欢迎</span></a>
+                                        <div id="userBox">
+                                            <form id="userForm">
+                                                <fieldset id="userbody">
+                                                    <fieldset>
+                                                        <a href="#" id="person">个人信息</a>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <a href="#" id="myorder">我的订单</a>
+                                                    </fieldset>
+                                                    <a href="" id="zx">注销</a>
+                                                    @*<label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住密码</i></label>*@
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--会员注册div-->
+                            <div class="reg">
+                                <a href="/home/Register">注册</a>
+                            </div>
+                            <!--购物车div-->
+                            <div class="cart box_1">
+                                <a href="#" id="mycart">
+                                    <h3> <span class="simpleCart_total">我的购物车</span><img style="border:0;width:auto" src="/images/bag.png" alt=""></h3>
+                                </a>
+                                <!--<p><a href="javascript:;" class="simpleCart_empty">(empty card)</a></p>-->
+                                <div class="clearfix"> </div>
+                            </div>
+                            <!--联系我们div-->
+                            <div class="create_btn">
+                                <a href="http://wpa.qq.com/msgrd?v=3&uin=282523357&site=qq&menu=yes">联系我们</a>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <!--搜索div-->
+                        <div class="search">
+                            <form action="/home/SearchView">
+                                <input type="text" name="SearchParam" value="" placeholder="search...">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!-- start header menu -->
+                <ul class="megamenu skyblue">
+                    <li class="active grid"><a class="color1" href="/">首页</a></li>
+                    <!--分类-->
+                    @{
+                        foreach (var item in ViewBag.pmenu)
+                        {
+                            <li class="grid">
+                                <a class="color4" href="@item.Link">@item.PName</a>
+                                <div class="megapanel">
+                                    <div class="row">
+                                        @{
+                            foreach (var item1 in ViewBag.cmenu)
+                            {
+                                if (item1.ParentId == item.Id)
+                                {
+                                    <div class="col1">
+                                        <div class="h_nav">
+                                            <h4>@item1.CName</h4>
+                                            <ul>
+                                                @{
+                                    foreach (var item2 in ViewBag.scmenu)
+                                    {
+                                        if (item2.ChildId == item1.Id)
+                                        {
+                                            string url = "/Home/SortView?Parentid=" + item2.ChildId + "&childid=" + item2.Id;
+                                            <li><a href="@url">@item2.SCName</a></li>
+                                        }
+                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        <div class="col2"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                        <div class="col1"></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--页面上部商品展示-->
+    <div class="arriv">
+        <div class="container" id="container">
+            <div class="sections">
+                @{
+                    foreach (var item in ViewBag.CarouselImg)
+                    {
+                        <a href="@item.Url" class="section" style="background-image: url(@item.ShowImg)"></a>
+                    }
+                }
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!--页面下部商品展示-->
+    <div class="special">
+        <div class="container">
+            <h3>新书上架</h3>
+            <div class="specia-top">
+                <ul class="grid_2" id="grid_2">
+                    @*@{
+                            foreach (var item in ViewBag.newbook)
+                            {
+                                string str = JD.BookOA.Common.ComString.SplitString(item.BookName, 10);
+                                <li>
+                                    <a href="details.html"><img src="@item.Smallpic" class="img-responsive" alt="@item.BookName"></a>
+                                    <div class="special-info grid_1 simpleCart_shelfItem">
+                                        <h5>@str</h5>
+                                        <h6>@item.Author</h6>
+                                        <div class="item_add"><span class="item_price">￥@item.NewPrice</span>&nbsp;&nbsp;&nbsp;<span class="item_price1">￥@item.OldPrice</span></div>
+                                        <div class="item_add"><span class="item_price"><a href="#">加入购物车</a></span></div>
+                                    </div>
+                                </li>
+                            }
+                        }*@
+                    <!--<div class="clearfix"> </div>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--分页控件-->
+    <div class="demo">
+        <div id="demo1">
+
+        </div>
+    </div>
+    <!--底部链接-->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-3 cust">
+                <h4>购物指南</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 1)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 abt">
+                <h4>支付方式</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 2)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-3 myac">
+                <h4>商家服务</h4>
+                @{
+                    foreach (var item in ViewBag.friend)
+                    {
+                        if (item.FriendshipClass == 3)
+                        {
+                            if (item.IsDIY == 1)
+                            {
+                                <li><a href="/home/FrindShip?Id=@item.Id">@item.FriendshipMsg</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@item.FriendshipUrl">@item.FriendshipMsg</a></li>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="col-md-5 our-st">
+                <h4>联系方式</h4>
+                <li><i class="add"> </i>江南大学</li>
+                <li><i class="phone"> </i>18861822100</li>
+                <li><a href=""><i class="mail"> </i>youngeyes@yeah.net</a></li>
+
+            </div>
+            <div class="clearfix"> </div>
+            <p>Copyright &copy;江南大学毕设作品</p>
+            <!--<p>Copyright &copy;江大物联毕设作品</p>-->
+        </div>
+    </div>
+    <script>
+        $("#container").PageSwitch({
+            direction: 'horizontal',
+            easing: 'ease-in',
+            duration: 1000,
+            autoPlay: true,
+            loop: 'false'
+        });
+        var pages = 0;
+        var num = 0;
+        $(function () {
+            $.post("/home/Loadnewbook", function (data) {
+                pages = data.totalCount;
+                if (pages > 5) {
+                    num = 5;
+                } else {
+                    num = pages;
+                }
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                    , layer = layui.layer;
+                    laypage(
+                        {
+                            cont: 'demo1'
+                      , pages: pages //总页数
+                      , groups: num //连续显示分页数
+                      , jump: function (obj) {
+                          $.post("/home/Loadnewbook", { "pageIndex": obj.curr }, function (data) {
+                              var val = "";
+                              $("#grid_2").html("");
+                              for (var i = 0; i < data.rows.length; i++) {
+                                  var url = "/home/DetailView?Id=" + data.rows[i].Id;
+                                  val += '<li><a href="' + url + '"><img src="'
+                                      + data.rows[i].Smallpic + '" class="img-responsive" alt="'
+                                      + data.rows[i].BookName + '"></a><div class="special-info grid_1 simpleCart_shelfItem"><h5>'
+                                      + spiltstring(data.rows[i].BookName, 10) + '</h5><h6>'
+                                      + data.rows[i].Author + '</h6><div class="item_add"><span class="item_price">￥'
+                                      + data.rows[i].NewPrice + '</span>&nbsp;&nbsp;&nbsp;<span class="item_price1">￥'
+                                      + data.rows[i].OldPrice + '</span></div><div class="item_add"><span class="item_price"><a href="javascript:void(0)" onclick="addcart(' + data.rows[i].Id + ')">加入购物车</a></span></div></div></li>'
+                              }
+                              $("#grid_2").append(val);
+                          });
+                      }
+                    });
+                })
+            })
+        });
+        function ChangeDateFormat(cellval) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? +(date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? +date.getDate() : date.getDate();
+            var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            return date.getFullYear() + "-" + month + "-" + currentDate + " " + hour + ":" + minute + ":" + second;
+
+        }
+        function spiltstring(str, length) {
+            var strs = "";
+            if (str.length > length) {
+                strs = str.substring(0, length);
+            } else {
+                strs = str;
+            }
+            return strs;
+        }
+        function addcart(Id) {
+            $.post("/home/GetBook", { "Id": Id }, function (data) {
+                var memberid = $("#memerid").val();
+                $.post("/home/AddCart", {
+                    "MemberId": memberid, "BookName": data.BookName,
+                    "Price": data.Price, "Ammount": 1
+                }, function (data) {
+                    alert("加入购物车成功");
+                })
+            });
+        }
+    </script>
+</body>
+</html>

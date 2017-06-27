@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <link href="~/Content/uploadify/uploadify.css" rel="stylesheet" />
+    @*<script type="text/javascript" src="/js/jquery.js"></script>*@
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/uploadify/jquery.uploadify.js"></script>
+    <script type="text/javascript" src="/js/jquery.idTabs.min.js"></script>
+    <script type="text/javascript" src="/js/select-ui.min.js"></script>
+    <link href="~/css/layui.css" rel="stylesheet" />
+    <script src="~/js/layui.js"></script>
+    <link href="~/css/adminstyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/editor/themes/default/default.css" rel="stylesheet" />
+    <script src="~/editor/kindeditor-min.js"></script>
+    <script src="~/editor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+        })
+    </script>
+</head>
+
+
+<body>
+
+
+    <div class="place">
+        <span>位置：</span>
+        <ul class="placeul">
+            <li><a href="/admin/CarouselImg">返回</a></li>
+            @{
+                if (ViewBag.action == "edit")
+                {
+                    <li><a href="#">编辑</a></li>
+                }
+                else
+                {
+                    <li><a href="#">添加</a></li>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <div class="formbody">
+        <div class="formtitle"><span>基本信息</span></div>
+        <input type="hidden" id="hiddenId" value="@ViewBag.Id" />
+        <input type="hidden" id="hiddenaction" value="@ViewBag.action" />
+        <ul class="forminfo">
+            <li><label>链接地址</label><input type="text" id="Url" name="Url" class="dfinput" value="@ViewBag.Url" /></li>
+            <li><label>展示图片</label><input name="ShowImg" type="text" id="ShowImg" class="dfinput" value="@ViewBag.ShowImg" /> <input name="" type="button" id="insertfile1" class="btn" value="文件上传" /></li>
+            <li><label>&nbsp;</label><input name="getHtml" type="submit" class="btn" id="k" value="确认保存" /></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+
+        $(function () {
+            KindEditor.ready(function (Kfc) {
+                var editor = Kfc.editor({
+                    allowFileManager: true,
+                    cssPath: '/editor/plugins/code/prettify.css',
+                    uploadJson: '/KindEditor/UploadImage',
+                    fileManagerJson: '/KindEditor/ProcessRequest'
+                });
+                Kfc('#insertfile1').click(function () {
+                    editor.loadPlugin('insertfile', function () {
+                        editor.plugin.fileDialog({
+                            fileUrl: Kfc('#url').val(),
+                            clickFn: function (url, title) {
+                                Kfc('#ShowImg').val(url);
+                                editor.hideDialog();
+                            }
+                        });
+                    });
+                });
+                $("#k").click(function () {
+                    //alert(111);
+                    $.post("/Admin/EditCarouselImg", {
+                        "Url": $("#Url").val(), "ShowImg": $("#ShowImg").val(),
+                        "action": $("#hiddenaction").val(), "Id": $("#hiddenId").val(),
+                    }, function (data) {
+                        if (data == "ok") {
+                            alert("保存成功");
+                            window.location.href = "/admin/CarouselImg";
+
+                        }
+                        else {
+                            alert("保存失败");
+                        }
+                    });
+                });
+                
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a1c023f23c57408282c38f3051008e24" Name="Diagram1">
+        <EntityTypeShape EntityType="Online_bookstoreModel.Book" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.ChildClass" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.Friendship" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.Member" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.Orders" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.ParentClass" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.schildclass" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.Shopping_Cart" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.UserInfo" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="Online_bookstoreModel.FK_Orders_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="Online_bookstoreModel.FK_Shopping_Cart_Member" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.Message" Width="1.5" PointX="8.375" PointY="6.75" />
+        <EntityTypeShape EntityType="Online_bookstoreModel.CarouselImg" Width="1.5" PointX="5.375" PointY="9.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

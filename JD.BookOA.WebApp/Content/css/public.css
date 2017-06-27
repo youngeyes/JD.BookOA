@@ -1,0 +1,52 @@
+﻿	.foot{
+		clear: both;
+		color: white;
+		height: 80px;
+		line-height: 40px;
+	}
+	.footer{
+		background-color: black;
+		margin: 0 auto;
+		width: 66%;
+		text-align: center;
+	}
+	.footer a{
+		text-decoration: none;
+		padding-left: 1em;
+		color: white;
+		font-size:0.8em
+	}
+
+/*PC电脑版*/
+@media screen and (min-width: 750px) {
+   .header_content span{
+        font-size: 25px;
+        font-weight: bold;
+    }
+	#abcdefg{
+		height: 5rem!important;
+	}
+	.footer{
+		background-color: black;
+		margin: 0 auto;
+		width: 55.7%;
+		text-align: center;
+	}
+}
+/*手机版*/
+@media screen and (max-width: 750px){
+    .footer a{
+        text-decoration: none;
+        padding-left: 0.6rem;
+        color: white;
+    }
+	.footer{
+		background-color: black;
+		margin: 0 auto;
+		width: 100%;
+		text-align: center;
+	}
+	
+}
+
+

@@ -1,0 +1,525 @@
+﻿.foot{
+    background: black;
+    clear: both;
+    color: white;
+    height: 80px;
+    line-height: 40px;
+	margin-top:37px;
+}
+.footer{
+    margin: 0 auto;
+    width: 94%;
+    text-align: center;
+}
+.all{
+    font-family: 微软雅黑;
+
+}
+.footer a{
+    text-decoration: none;
+    padding-left: 1em;
+    color: white;
+	font-size:0.8em
+}
+.content{
+    background: white;
+}
+a{
+	text-decoration:none;
+	color:black;
+	}
+#d{
+	position:absolute; 
+	z-index:5555555;
+	display:none; 
+	width:55%;
+	background:#393A3E;
+	color:white;
+	left:42%;
+	}
+#d li{
+	height:2.6rem;
+	line-height:2.6rem;
+	text-align:left;
+	font-size:1rem !important;
+	border-bottom:1px solid #2F3034;
+	}
+ul, ol, li {list-style-type:none;vertical-align:0}
+a {outline-style:none;color:#535353;text-decoration:none}
+a:hover { color: #D40000; text-decoration: none}
+.slider{display:none}/*用于获取更加体验*/
+.focus span{width:10px;height:10px;margin-right:10px;border-radius:50%;background:#666;font-size:0}
+.focus span.current{background:#fff}
+*{margin: 0;padding: 0;}
+.myscroll { width: 100%; height: 140px;line-height: 26px; font-size: 12px; overflow: hidden;}
+.myscroll li { height: 26px; margin-left: 25px;}
+.myscroll a { color: #333; text-decoration: none;}
+.myscroll a:hover { color: #ED5565; text-decoration: underline;}
+
+
+a{color:#666; text-decoration:none;}
+.bcon{ width:98%; margin:0 auto;}
+.list_lh{ height:70px; overflow:hidden;}
+.list_lh li{ padding-top:3px;}
+
+.list_lh li p span{ color:#999; float:right;}
+.ewm{
+	width:80%;
+	position:absolute;
+	top:1%;
+	display:none;
+	left:50%;
+	margin-left:-40%;
+	z-index:66666;
+
+}
+/*PC电脑版*/
+@media screen and (min-width: 750px) {
+    .twinkle{
+        border-radius: 80px;
+        width: 200px;
+        height: 30px;
+        line-height: 30px;
+        position: absolute;
+        top: 50px;
+        left: 60px;
+        z-index: 222;
+        padding-left: 10px;
+        background-color: rgb(0, 0, 0);
+        color: white;
+        opacity: 0.5;
+    }
+	.header_title{
+        width: 750px;
+        height: 70px;
+        background-color: #f5f5f5;
+        line-height: 70px;
+    }
+    .header_title_center{
+        width: 95%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .header_title_center img{
+        float: left;
+        margin-top: 20px;
+    }
+    .header_title_center span{
+        font-size: 24px;
+        font-weight:bold;
+    }
+	.list_lh li p{ 
+		height:18px; line-height:18px;
+	}
+    .all{
+        width: 750px;
+        margin: 0 auto;
+        border: 1px solid #888888;
+    }
+    .right{
+        width: 750px;
+        height: 75px;
+        margin-top: 224px;
+    }
+    .about{
+        color:#4269DD;
+        font-size: 20px;
+    }
+    .about_div{
+        width: 650px;
+        text-align: right;
+        margin-top: -40px;
+    }
+    .list_one{
+        width: 750px;
+    }
+    .list_one_center{
+        width: 650px;
+        margin: 0 auto;
+    }
+    .character{
+        float: left;
+    }
+    .head_img{
+        float: right;
+        width: 260px;
+        height: 180px;
+		margin-top:1em;
+    }
+    .feature{
+        color: #fc438f;
+       font-weight: bold;
+    }
+    .introduce{
+        font-size: 13px;
+        font-weight: bold;
+        color: #ed99bb;
+    }
+    .left{
+        width: 750px;
+        height: 75px;
+    }
+    .good{
+        color:#4269DD;
+        font-size: 20px;
+    }
+    .list_two_circle{
+        width: 650px;
+        padding-left: 40px;
+        margin-top: -40px;
+    }
+    .list_two{
+        width: 750px;
+        overflow: hidden;
+		padding-top:1em;
+	
+    }
+    .list_two_center{
+        width: 690px;
+        margin: 30px auto;
+    }
+    .circle{
+        width: 229px;
+        height: 212px;
+        float: left;
+    }
+    .introduce_right{
+        float: left;
+        width:65%;
+    }
+	.introduce_right p{
+		padding:0;
+		margin:0;
+	}
+    .title{
+        font-size: 18px;
+    }
+    .product{
+        font-size: 14px;
+    }
+    .freebtn{
+        width: 200px;
+        cursor: pointer;
+    }
+    .price{
+        font-size: 25px;
+        color: #ed5573;
+        font-weight: bold;
+    }
+    .history{
+        font-size: 13px;
+        color: #888888;
+    }
+    .right1{
+        width: 750px;
+        height: 62px;
+    }
+    .about1{
+        color: #fd569b;
+        font-size: 20px;
+    }
+    .about_div1{
+        width: 650px;
+        text-align: right;
+        margin-top: -40px;
+    }
+    .circle1{
+        width: 229px;
+        height: 212px;
+        background-size: 229px 212px;
+        float: right;
+    }
+    .introduce_right1{
+        float: left;
+        width: 65%;
+    }
+    .circle_img{
+        width: 220px;
+        height: 212px;
+    }
+    .middle_right{
+        width: 70px;
+        height: 100%;
+        float: right;
+    }
+    .middle_img{
+        width: 80px;
+        margin-top: 26px;
+        margin-left: -36px;
+    }
+    .middle_img1{
+       width: 80px;
+        margin-left: -10px;
+        margin-top: -5px;
+    }
+    .middle_img2{
+        width: 80px;
+        margin-top: 5px;
+        margin-left: -36px;
+    }
+    .free{
+        color: #c92c2e;
+		font-weight:bolder;
+    }
+	.free_center{
+		width:100%;
+		text-align:center;
+	}
+	.free_center img{
+		width:40%;
+	}
+	.circle_img1{
+		width:220px;
+		height:212px;
+	}
+    .fen img{
+        margin-top: -12px;
+		width:100%;
+    }
+    .fen{
+		position:relative;
+        z-index:22222;
+        height: 100px;
+    }
+    .list_lh{ height:120px; overflow:hidden;}
+	
+}
+
+
+/*手机版*/
+@media screen and (max-width: 640px){
+    .twinkle{
+        border-radius: 10rem;
+        width: 13rem;
+        height: 2rem;
+        line-height: 2rem;
+        position: absolute;
+        top: 3rem;
+        left: 3rem;
+        font-size: 0.9rem;
+        z-index: 222;
+        padding-left: 0.8rem;
+        background-color: rgb(0, 0, 0);
+        color: white;
+        opacity: 0.5;
+    }
+    .all{
+        width: 100%;
+        margin: 0 auto;
+    }
+    .right{
+        width: 100%;
+        height: 3.75rem;
+        margin-top: 10.3rem;
+    }
+    .about{
+        color: #4269DD;
+        font-size: 1rem;
+    }
+    .about_div{
+        width: 90%;
+        text-align: right;
+        margin-top: -2rem;
+    }
+    .list_one{
+        width: 100%;
+        padding-top: 10px;
+    }
+    .list_one_center{
+        width: 95%;
+        margin: 0 auto;
+    }
+    .character{
+        float: left;
+        line-height: 1rem;
+		font-size:10px;
+    }
+    .character p{
+        margin: 0;
+    }
+    .head_img{
+        float: right;
+        width: 9rem;
+        height: 6rem;
+    }
+    .feature{
+        color: #fc438f;
+        font-weight: bold;
+        font-size: 0.5rem;
+    }
+    .introduce{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: #ed99bb;
+    }
+    .left{
+        width: 100%;
+        height: 2.5rem;
+    }
+    .good{
+        color: #4269DD;
+        font-size: 1rem;
+        padding-left: 1rem;
+    }
+    .list_two_circle{
+        width: 90%;
+        margin-top: -2rem;
+    }
+    .list_two{
+        width: 100%;
+        overflow: hidden;
+		padding-top:1rem;
+    }
+    .list_two_center{
+        width: 95%;
+        margin: 1.5rem auto;
+
+    }
+    .circle{
+        width: 8rem;
+        height: 8rem;
+        float: left;
+		text-align:center;
+    }
+    .introduce_right{
+        float: right;
+        width: 10rem;
+    }
+    .circle_img1{
+        width: 8rem;
+        height: 8rem;
+    }
+    .title{
+        font-size: 1rem;
+		font-weight:bold;
+    }
+    .title a{
+        color:black;
+    }
+    .product{
+        font-size: 0.8rem;
+    }
+    .freebtn{
+        width: 9rem;
+		margin-bottom:-25px;
+        cursor: pointer;
+    }
+    .price{
+        font-size: 1.7rem;
+        color: #ed5573;
+        font-weight: bold;
+    }
+    .history{
+        font-size: 0.8rem;
+        color: #888888;
+    }
+    .right1{
+        width: 100%;
+    }
+    .about1{
+        color: #4269DD;
+        font-size: 1rem;
+    }
+    .about_div1{
+        width: 96%;
+        text-align: right;
+        margin-top: -2rem;
+    }
+    .circle1{
+        width: 8rem;
+        height: 8rem;
+        background-size: 8rem 8rem;
+        float: right;
+    }
+    .introduce_right1{
+        float: left;
+        width: 57.5%;
+    }
+    .circle_img{
+        width: 8rem;
+        height: 8rem;
+    }
+    .middle_right{
+        width: 1.8rem;
+        height: 100%;
+        float: right;
+    }
+    .free{
+        color: #c92c2e;
+		font-weight:bold;
+    }
+    .footer a{
+        text-decoration: none;
+        padding-left: 0.6rem;
+        color: white;
+    }
+	.free_center{
+		width:100%;
+		text-align:center;
+	}
+	.free_center img{
+		width:100%;
+	}
+	.introduce_right p{
+		padding:0.2em;
+		margin:0;
+	}
+	.last_time{
+		font-size:0.5rem;
+	}
+	.introduce_right1 p{
+		padding:0;
+		margin:0;
+	}
+	p{
+		margin-top:-1px;
+	}
+	.bcon{
+		font-size:0.6rem;
+	}
+	.list_lh li p{ 
+		height:1rem; line-height:1rem;
+	}
+	.header_title{
+        width: 100%;
+        height: 3rem;
+        background-color: #f5f5f5;
+        line-height: 3rem;
+    }
+    .header_title_center{
+        width: 85%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .header_title_center img{
+        float: left;
+        margin-top: 0.7rem;
+        width: 1.2rem;
+    }
+    .right_a img{
+        height: 1.7rem;
+        width: 0.7rem;
+    }
+    .header_title_center span{
+        font-size: 1.2rem;
+        font-weight:bold;
+    }
+    .fen img{
+        width: 100%;
+        margin-top: -7px;
+    }
+    .fen{
+        position:absolute;
+        z-index:22222;
+        height:5rem;
+    }
+	.imgs_tousu{
+		margin-left:0.5rem;
+		height:1.4rem;
+		width:100rem;
+		float:left;
+		margin-right:0.5rem;
+	}
+}
+
+
